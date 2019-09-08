@@ -1,0 +1,20 @@
+.GoogleBtn {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  font-weight: bold;
+  color: #3b3b3b;
+  font-size: 1.5rem;
+  border-radius: 3px;
+  display: block;
+}
+
+.GoogleBtn:hover {
+  box-shadow: 3px 1px 4px #e5e5e5;
+}
+
+.GoogleIcon {
+  width: 2.3rem;
+  padding-right: 1rem;
+  transform: translateY(.5rem);
+}

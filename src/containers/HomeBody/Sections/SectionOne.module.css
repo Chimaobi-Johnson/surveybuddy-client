@@ -1,0 +1,15 @@
+.Row {
+  width: 100%;
+  display: flex;
+}
+
+.IntroRightBox {
+  background-color: #1a1811;
+  height: 70vh;
+  flex: 1;
+}
+
+.IntroLeftBox {
+  height: 70vh;
+  flex: 1;
+}

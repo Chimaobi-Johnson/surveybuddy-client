@@ -1,0 +1,21 @@
+.FacebookBtn {
+  background-color: #4267b2;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  display: block;
+}
+
+.FacebookBtn:hover {
+  box-shadow: 3px 1px 4px #e5e5e5;
+}
+
+.FacebookIcon {
+  width: 2.3rem;
+  padding-right: 1rem;
+  transform: translateY(.5rem);
+}

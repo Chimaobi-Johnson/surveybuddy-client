@@ -1,0 +1,153 @@
+.TopNav {
+  position: relative;
+}
+
+.TopMenu {
+  position: absolute;
+  z-index: 50;
+  top: 2rem;
+  right: 2rem;
+}
+
+.AuthDialogBox {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  .TopMenu {
+    display: none;
+  }
+  .TopMenuBtn {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    background-color: #ccc;
+    position: absolute;
+    top: .8rem;
+    right: 1rem;
+    z-index: 150;
+  }
+}
+
+.TopMenu h4 {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+  background-color: #ff9800;
+  padding: 8px 10px;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 1rem;
+  box-shadow: 3px 2px 3px #ccc;
+}
+
+.TopMenu h4:hover {
+  cursor: pointer;
+  box-shadow: 5px 3px 5px #ccc;
+}
+
+#AuthBox {
+  display: block;
+}
+
+
+.AuthBoxInline {
+  position: absolute;
+  right: 22rem;
+  z-index: 200;
+  top: 8rem;
+  width: 25%;
+  /* box-shadow: 1px 2px 3px #eee; */
+  padding-bottom: 3rem;
+}
+
+.AuthBoxInline h3 {
+  text-align: center;
+}
+/*
+@keyframes moveInRight {
+	0%, 40% { right: -100%; opacity: 0; }
+  41%, 100% { right: 0%; opacity: 1; }
+} */
+
+.NavigationBox {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  padding: 10px;
+  box-shadow: 1px 2px 2px #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+  display: none;
+}
+
+.NavigationBox:hover {
+  display: block;
+}
+
+/* #NavBox {
+  display: block;
+} */
+
+.NavigationBox ul {
+  padding: 0;
+}
+
+.NavigationBox ul li {
+  list-style: none;
+  padding: 10px 20px;
+  color: #ff9800;
+  cursor: pointer;
+}
+
+.NavigationBox ul li:hover {
+  background-color: #ccc;
+}
+
+.Profile {
+  position: relative;
+  width: 15rem;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+.Profile:hover + .NavigationBox {
+  display: block;
+}
+
+.Picture {
+  cursor: pointer;
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+
+}
+
+.ProfileName {
+  position: absolute;
+  top: 1rem;
+  left: 3.5rem;
+}
+
+.FormControl {
+  display: flex;
+  margin: 1rem 2rem;
+}
+
+.FormLabel {
+  flex: 1;
+}
+
+.FormInput {
+  flex: 3;
+  width: 100%;
+}
+
+.FormInput input {
+  border-bottom: 2px solid #ccc;
+}
+
+.AuthForm {
+  font-size: .8rem;
+}
