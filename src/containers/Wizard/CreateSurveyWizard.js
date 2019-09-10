@@ -53,26 +53,21 @@ class CreateSurveyWizard extends Component {
     },
     surveyCheckboxInitValues: {
       checkboxOne: {
-        editingMode: false,
-        value: ''
+        value: '',
+        editingMode: false
       },
       checkboxTwo: {
-        editingMode: false,
         value: ''
       },
       checkboxThree: {
-        editingMode: false,
         value: ''
       },
       checkboxFour: {
-        editingMode: false,
         value: ''
       },
       checkboxFive: {
-        editingMode: false,
         value: ''
       },
-      editingMode: false
     },
     surveyCheckboxTempQuestion: '',
     surveyCheckboxNumber: 0,
@@ -225,21 +220,38 @@ class CreateSurveyWizard extends Component {
     const surveyCheckbox = {...this.state.surveyCheckboxes};
     const surveyCheckboxInitValues = {...this.state.surveyCheckboxInitValues};
     let checkboxNames = {};
+    // loop each checkbox from one to three and transfer it from the initial state which is surveyCheckboxInitValues
+    // to the permanent state which is either in checkbox one, two or three depending on how many the users wants
     switch (false) {
       case surveyCheckbox.checkboxOne.isDisplayed:
          surveyCheckbox.checkboxOne.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
          surveyCheckbox.checkboxOne.isDisplayed = true;
          Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+           if(checkboxObj.value === '') {
+             return  // this is to prevent a checkbox with an empty name from being displayed in the form
+           }
+            // transfer object to as its been looped to checkboxNames obj using Object.assign method
              return Object.assign(checkboxNames, {[checkboxObj.value]: false});
          });
+         // Clear the values so as to prevent the old state from displaying on the UI
+         Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+             checkboxObj.value = '';
+         });
          surveyCheckbox.checkboxOne.surveyCheckboxNames = checkboxNames
-         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
+         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: '', surveyCheckboxInitValues: surveyCheckboxInitValues});
         break;
       case surveyCheckbox.checkboxTwo.isDisplayed:
         surveyCheckbox.checkboxTwo.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
         surveyCheckbox.checkboxTwo.isDisplayed = true;
         Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+          if(checkboxObj.value === '') {
+            return  // this is to prevent a checkbox with an empty name from being displayed in the form
+          }
              return Object.assign(checkboxNames, {[checkboxObj.value]: false});
+        });
+        // Clear the values so as to prevent the old state from displaying on the UI
+        Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+            checkboxObj.value = '';
         });
         surveyCheckbox.checkboxTwo.surveyCheckboxNames = checkboxNames
         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
@@ -248,7 +260,14 @@ class CreateSurveyWizard extends Component {
         surveyCheckbox.checkboxThree.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
         surveyCheckbox.checkboxThree.isDisplayed = true;
         Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+          if(checkboxObj.value === '') {
+            return  // this is to prevent a checkbox with an empty name from being displayed in the form
+          }
              return Object.assign(checkboxNames, {[checkboxObj.value]: false});
+        });
+        // Clear the values so as to prevent the old state from displaying on the UI
+        Object.values(surveyCheckboxInitValues).map(checkboxObj => {
+            checkboxObj.value = '';
         });
         surveyCheckbox.checkboxThree.surveyCheckboxNames = checkboxNames
         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
@@ -269,21 +288,21 @@ class CreateSurveyWizard extends Component {
        )
      })
   }
-  saveCheckboxNameHandler = (checkbox) => {
+  saveCheckboxNameHandler = () => {
     const checkboxInitValues = {...this.state.surveyCheckboxInitValues};
-    checkboxInitValues.editingMode = false;
+    checkboxInitValues.checkboxOne.editingMode = false;
     this.setState({surveyCheckboxInitValues: checkboxInitValues});
   }
 
-  editCheckboxNameHandler = (checkbox) => {
+  editCheckboxNameHandler = () => {
     const checkboxInitValues = {...this.state.surveyCheckboxInitValues};
-    checkboxInitValues.editingMode = true;
+    checkboxInitValues.checkboxOne.editingMode = true;
     this.setState({surveyCheckboxInitValues: checkboxInitValues});
   }
 
   renderCheckBoxesOnModal() {
     let checkboxOne, checkboxTwo, checkboxThree, checkboxFour, checkboxFive;
-    if(this.state.surveyCheckboxInitValues.editingMode) {
+    if(this.state.surveyCheckboxInitValues.checkboxOne.editingMode) {
       checkboxOne = (<>
         <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
         <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxOne')}>Save Names</Button></>);
@@ -311,29 +330,29 @@ class CreateSurveyWizard extends Component {
           <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxFive')}>Save Names</Button></>);
     } else {
       checkboxOne = (<>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
         <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxOne')}>Edit Names</Button></>);
       checkboxTwo = (<>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
         <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxTwo')}>Edit Names</Button></>);
       checkboxThree = (<>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
         <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxThree')}>Edit Names</Button></>);
       checkboxFour = (<>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-        <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
+        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFour.value === '' ? 'checkbox 4' : this.state.surveyCheckboxInitValues.checkboxFour.value}/>
         <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxFour')}>Edit Names</Button></>);
       checkboxFive = (<>
-         <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-         <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-         <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-         <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
-         <FormControlLabel control={<Checkbox checked={true} value="checkedB" color="primary" />} label="Primary"/>
+         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
+         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
+         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
+         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFour.value === '' ? 'checkbox 4' : this.state.surveyCheckboxInitValues.checkboxFour.value}/>
+         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFive.value === '' ? 'checkbox 5' : this.state.surveyCheckboxInitValues.checkboxFive.value}/>
          <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxFive')}>Edit Names</Button></>);
     }
     switch (this.state.surveyCheckboxNumber) {
@@ -374,7 +393,7 @@ class CreateSurveyWizard extends Component {
                     type="text"
                     label={key}
                     value={this.state.surveyInputs[key]}
-                    onChange={(event, key) => this.surveyInputChangeHandler(event, 'NAME')}
+                    onChange={(event, key) => this.surveyInputChangeHandler(event, {key})}
                     fullWidth
                   />
                   <Button key={key + 'btn' + new Date().getSeconds()} onClick={(identifier) => this.editSurveyInputHandler(`${key}`)}>Edit</Button><Button key={key + 'btn' + new Date().getMilliseconds()} onClick={(identifier) => this.deleteSurveyInputHandler(`${key}`)}>Delete</Button></>)
