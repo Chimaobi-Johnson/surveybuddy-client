@@ -4,6 +4,18 @@
   background-color: red;
 }
 
+.SurveyImageBox img{
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+}
+
+.SurveyImageBoxCircle img{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
+  margin: auto 50%;
+}
 
 .SideBar {
   width: 100%;
@@ -45,6 +57,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow-y: scroll;
 }
 
 .DashboardInnerBox {
@@ -59,20 +72,7 @@
 
 .DashboardContent {
   text-align: center;
-}
-
-.SurveyImageBox img{
-  width: 10rem;
-  height: 10rem;
-  display: inline-block;
-}
-
-.SurveyImageBoxCircle img{
-  width: 10rem;
-  height: 10rem;
-  border-radius: 100%;
-  margin: auto 50%;
-
+  margin: 0 auto;
 }
 
 .InputArea {

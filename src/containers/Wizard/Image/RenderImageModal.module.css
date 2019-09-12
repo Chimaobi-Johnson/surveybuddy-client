@@ -1,0 +1,13 @@
+.SurveyImageBox img{
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+}
+
+.SurveyImageBoxCircle img{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
+  margin: auto 50%;
+
+}

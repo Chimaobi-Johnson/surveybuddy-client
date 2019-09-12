@@ -12,15 +12,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormGroup from '@material-ui/core/FormGroup';
+import isEmpty from 'lodash/isEmpty';
+import SurveyName from './SurveyName/SurveyName';
+import RenderTitleModal from './Title/RenderTitleModal';
+import RenderDescriptionModal from './Description/RenderDescriptionModal';
+import RenderImageModal from './Image/RenderImageModal';
+import RenderInputModal from './Input/RenderInputModal';
+import RenderCheckboxModal from './Checkbox/RenderCheckboxModal';
 
 import * as classes from './CreateSurveyWizard.module.css';
-
-// const menuItems = {
-//   CreateNew: 'Create New Survey',
-//   MySurveys: 'My Surveys',
-//   BuyCredits: 'Buy Credits',
-//   HowItWorks: 'How it Works'
-// }
 
 
 class CreateSurveyWizard extends Component {
@@ -81,9 +81,7 @@ class CreateSurveyWizard extends Component {
   }
 
   componentDidMount() {
-    // if(!this.props.auth) {
-    //   alert('error, you are not allowed to access this page');
-    // }
+
   }
 
   removeDialog = (dialogName) => {
@@ -160,13 +158,7 @@ class CreateSurveyWizard extends Component {
 
   surveyInputChangeHandler = (event, inputLabel) => {
     alert('You cant write on this form now');
-    // const oldSurveyInputState = {...this.state.surveyInputs}
-    // console.log(inputLabel);
-    // console.log(oldSurveyInputState);
-    // oldSurveyInputState[inputLabel] = event.target.value;
-    // this.setState({surveyInputs: oldSurveyInputState});
   }
-
 
   addInputHandler = () => {
     let inputLabel = this.state.surveyInputLabelName;
@@ -176,18 +168,9 @@ class CreateSurveyWizard extends Component {
   }
 
   deleteSurveyInputHandler = (key) => {
-    // const currentSurveyInputObj = updateObject(this.state.surveyInputs, {
-    //       [inputIdentifier]: updatedFormElement
-    //   });
     const currentSurveyInputObj = {...this.state.surveyInputs};
     delete currentSurveyInputObj[key];
-    console.log(key);
-    console.log(currentSurveyInputObj);
     this.setState({surveyInputs: currentSurveyInputObj});
-  }
-
-  editSurveyInputHandler = (key) => {
-
   }
 
   initSurveyCheckboxDialog = () => {
@@ -209,13 +192,6 @@ class CreateSurveyWizard extends Component {
     this.setState({surveyCheckboxInitValues: checkboxInitValues});
   }
 
-  surveyCheckboxNameChangeHandler2 = () => {
-    const checkboxValues = this.state.surveyCheckboxTempValue;
-    const checkboxNames = {...this.state.surveyCheckboxNames};
-    checkboxNames[checkboxValues] = false;
-    this.setState({surveyCheckboxNames: checkboxNames});
-  }
-
   saveSurveyCheckboxHandler = () => {
     const surveyCheckbox = {...this.state.surveyCheckboxes};
     const surveyCheckboxInitValues = {...this.state.surveyCheckboxInitValues};
@@ -223,6 +199,9 @@ class CreateSurveyWizard extends Component {
     // loop each checkbox from one to three and transfer it from the initial state which is surveyCheckboxInitValues
     // to the permanent state which is either in checkbox one, two or three depending on how many the users wants
     switch (false) {
+      case !isEmpty(surveyCheckboxInitValues.checkboxOne.value):
+        alert('Please Edit Survey Form Checkbox Names');
+        break;
       case surveyCheckbox.checkboxOne.isDisplayed:
          surveyCheckbox.checkboxOne.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
          surveyCheckbox.checkboxOne.isDisplayed = true;
@@ -273,17 +252,32 @@ class CreateSurveyWizard extends Component {
         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
        break;
       default:
-        return alert('You cant add more than 3 checkbox questions');
+        return alert('You cant add more than 3 checkbox questions'); //issue here
     }
   }
+
+  deleteSurveyCheckBoxHandler = (checkboxObj) => {
+      console.log(checkboxObj);
+  }
+
   renderSurveyCheckbox() {
+    let checkboxItems, checkboxDeleteBtn;
      return Object.values(this.state.surveyCheckboxes).map(checkboxObj => {
+       if(checkboxObj.surveyCheckboxNames) {
+         if(!isEmpty(checkboxObj.surveyCheckboxNames)) {
+           checkboxDeleteBtn = <Button onClick={(checkboxObj) => this.deleteSurveyCheckBoxHandler(checkboxObj)}>Delete</Button>;
+         }
+         // To render checkbox items
+         checkboxItems = Object.keys(checkboxObj.surveyCheckboxNames)
+         .map(checkbox => {
+           return <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={checkbox}/>
+         });
+       }
        return (
          <>
            <h4>{checkboxObj.surveyCheckboxQuestion}</h4>
-           <FormGroup row>
-           {checkboxObj.surveyCheckboxNames ? Object.keys(checkboxObj.surveyCheckboxNames).map(checkbox => <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={checkbox}/>) : null }
-           </FormGroup>
+           {checkboxItems}
+           {checkboxDeleteBtn}
          </>
        )
      })
@@ -298,78 +292,6 @@ class CreateSurveyWizard extends Component {
     const checkboxInitValues = {...this.state.surveyCheckboxInitValues};
     checkboxInitValues.checkboxOne.editingMode = true;
     this.setState({surveyCheckboxInitValues: checkboxInitValues});
-  }
-
-  renderCheckBoxesOnModal() {
-    let checkboxOne, checkboxTwo, checkboxThree, checkboxFour, checkboxFive;
-    if(this.state.surveyCheckboxInitValues.checkboxOne.editingMode) {
-      checkboxOne = (<>
-        <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
-        <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxOne')}>Save Names</Button></>);
-      checkboxTwo = (<>
-          <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
-          <TextField type="text" label="Checkbox Two" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxTwo')} value={this.state.surveyCheckboxInitValues.checkboxTwo.value} fullWidth />
-          <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxTwo')}>Save Names</Button></>);
-      checkboxThree = (<>
-          <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
-          <TextField type="text" label="Checkbox Two" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxTwo')} value={this.state.surveyCheckboxInitValues.checkboxTwo.value} fullWidth />
-          <TextField type="text" label="Checkbox Three" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxThree')} value={this.state.surveyCheckboxInitValues.checkboxThree.value} fullWidth />
-          <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxThree')}>Save Names</Button></>);
-      checkboxFour = (<>
-          <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
-          <TextField type="text" label="Checkbox Two" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxTwo')} value={this.state.surveyCheckboxInitValues.checkboxTwo.value} fullWidth />
-          <TextField type="text" label="Checkbox Three" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxThree')} value={this.state.surveyCheckboxInitValues.checkboxThree.value} fullWidth />
-          <TextField type="text" label="Checkbox Four" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxFour')} value={this.state.surveyCheckboxInitValues.checkboxFour.value} fullWidth />
-          <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxFour')}>Save Names</Button></>);
-      checkboxFive = (<>
-          <TextField type="text" label="Checkbox One" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxOne')} value={this.state.surveyCheckboxInitValues.checkboxOne.value} fullWidth />
-          <TextField type="text" label="Checkbox Two" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxTwo')} value={this.state.surveyCheckboxInitValues.checkboxTwo.value} fullWidth />
-          <TextField type="text" label="Checkbox Three" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxThree')} value={this.state.surveyCheckboxInitValues.checkboxThree.value} fullWidth />
-          <TextField type="text" label="Checkbox Four" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxFour')} value={this.state.surveyCheckboxInitValues.checkboxFour.value} fullWidth />
-          <TextField type="text" label="Checkbox Five" onChange={(event, checkbox) => this.surveyCheckboxNameChangeHandler(event, 'checkboxFive')} value={this.state.surveyCheckboxInitValues.checkboxFive.value} fullWidth />
-          <Button onClick={(checkbox) => this.saveCheckboxNameHandler('checkboxFive')}>Save Names</Button></>);
-    } else {
-      checkboxOne = (<>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
-        <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxOne')}>Edit Names</Button></>);
-      checkboxTwo = (<>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
-        <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxTwo')}>Edit Names</Button></>);
-      checkboxThree = (<>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
-        <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxThree')}>Edit Names</Button></>);
-      checkboxFour = (<>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
-        <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFour.value === '' ? 'checkbox 4' : this.state.surveyCheckboxInitValues.checkboxFour.value}/>
-        <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxFour')}>Edit Names</Button></>);
-      checkboxFive = (<>
-         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxOne.value === '' ? 'checkbox 1' : this.state.surveyCheckboxInitValues.checkboxOne.value}/>
-         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxTwo.value === '' ? 'checkbox 2' : this.state.surveyCheckboxInitValues.checkboxTwo.value}/>
-         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxThree.value === '' ? 'checkbox 3' : this.state.surveyCheckboxInitValues.checkboxThree.value}/>
-         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFour.value === '' ? 'checkbox 4' : this.state.surveyCheckboxInitValues.checkboxFour.value}/>
-         <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={this.state.surveyCheckboxInitValues.checkboxFive.value === '' ? 'checkbox 5' : this.state.surveyCheckboxInitValues.checkboxFive.value}/>
-         <Button onClick={(checkbox) => this.editCheckboxNameHandler('checkboxFive')}>Edit Names</Button></>);
-    }
-    switch (this.state.surveyCheckboxNumber) {
-
-     case 1:
-        return checkboxOne;
-     case 2:
-        return checkboxTwo;
-     case 3:
-        return checkboxThree;
-     case 4:
-        return checkboxFour;
-     case 5:
-        return checkboxFive;
-      default:
-         return null;
-    }
   }
 
   renderDashboardContent() {
@@ -399,167 +321,34 @@ class CreateSurveyWizard extends Component {
                   <Button key={key + 'btn' + new Date().getSeconds()} onClick={(identifier) => this.editSurveyInputHandler(`${key}`)}>Edit</Button><Button key={key + 'btn' + new Date().getMilliseconds()} onClick={(identifier) => this.deleteSurveyInputHandler(`${key}`)}>Delete</Button></>)
         })
         }
-           <div>
-             {this.renderSurveyCheckbox()}
-           </div>
-
+        </div>
+        <div style={{textAlign: 'center'}}>
+          {this.renderSurveyCheckbox()}
         </div>
       </div>
     )
   }
 
-
-
-  renderTitleModal() {
-    return (<Dialog open={this.state.surveyTitleDialog} onClose={(mode) => this.removeDialog('surveyTitleDialog')} aria-labelledby="form-dialog-title">
-      <DialogContent>
-        <h4>Add a Title</h4>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="SurveyTitle"
-          type="text"
-          value={this.state.surveyTitleText}
-          onChange={this.changeSurveyTitle}
-          />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={(mode) => this.removeDialog('surveyTitleDialog')}>Save</Button>
-      </DialogActions>
-    </Dialog>)
-  }
-
-
-  renderDescriptionModal() {
-    return (<Dialog open={this.state.surveyDescrDialog} onClose={(mode) => this.removeDialog('surveyDescrDialog')} aria-labelledby="form-dialog-title">
-      <DialogContent>
-        <h4>Add a Description</h4>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="SurveyName"
-          type="text"
-          value={this.state.surveyDescrText}
-          onChange={this.changeSurveyDescr}
-          fullWidth
-          />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={(mode) => this.removeDialog('surveyDescrDialog')}>Save</Button>
-      </DialogActions>
-    </Dialog>)
-  }
-
-  renderImageModal() {
-    return (<Dialog open={this.state.surveyImageDialog} onClose={(mode) => this.removeDialog('surveyImageDialog')} aria-labelledby="form-dialog-title">
-      <DialogContent>
-        <h4>Add a Logo/Image</h4>
-        <Input
-          autoFocus
-          margin="dense"
-          id="SurveyImage"
-          type="file"
-          value={this.state.surveyImagePath}
-          onChange={this.changeSurveyImage}
-          fullWidth
-          />
-          <div className={classes.SurveyImageBox}>
-             {!this.state.imagePreviewUrl ? null : <img style={{margin: '0'}} src={this.state.imagePreviewUrl} />}
-          </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={(mode) => this.removeDialog('surveyImageDialog')}>Save</Button>
-      </DialogActions>
-    </Dialog>)
-  }
-
-  renderInputModal() {
-    return (<Dialog open={this.state.surveyInputDialog} onClose={(mode) => this.removeDialog('surveyInputDialog')} aria-labelledby="form-dialog-title">
-      <DialogContent>
-        <h4>Input Label Name</h4>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="SurveyInputLabelName"
-          type="text"
-          value={this.state.surveyInputLabelName}
-          onChange={this.changeSurveyInputLabelName}
-          />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={this.addInputHandler}>Save</Button>
-      </DialogActions>
-    </Dialog>)
-  }
-
-  renderCheckboxModal() {
-    return (<Dialog open={this.state.surveyCheckboxDialog} onClose={(mode) => this.removeDialog('surveyCheckboxDialog')} aria-labelledby="form-dialog-title">
-      <DialogContent>
-        <h4>Input Checkbox Question (If there is any)</h4>
-        <TextField
-            autoFocus
-            margin="dense"
-            id="SurveyCheckboxQuestion"
-            type="text"
-            value={this.state.surveyCheckboxTempQuestion}
-            onChange={this.changeSurveyCheckboxQuestion}
-            fullWidth
-          />
-          <h4>Input Number of Checkboxes</h4>
-            <Select
-            style={{marginRight: '1.5rem'}}
-              value={this.state.surveyCheckboxNumber}
-              onChange={this.changeCheckboxNumber}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-            </Select>
-            {this.renderCheckBoxesOnModal()}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={this.saveSurveyCheckboxHandler}>Save</Button>
-      </DialogActions>
-    </Dialog>)
-  }
-
-
   render () {
 
- let surveyName;
- if(this.state.surveyNameEditingMode) {
-  surveyName = (
-   <>
-    <TextField
-      autoFocus
-      margin="dense"
-      id="SurveyName"
-      type="text"
-      value={this.state.surveyNameText}
-      onChange={this.surveyNameChange}
-    />
-    <Button onClick={this.saveSurveyName}>Save</Button>
-    </>
-  )
- } else {
-     surveyName = (
-      <>
-     <h3>{this.state.surveyNameText}</h3>
-     <Button onClick={this.editSurveyName}>Edit</Button>
-     </>
-    )
- }
- console.log(this.state);
+  console.log(this.state);
     return (
       <div>
         <Grid className={classes.Dashboard} container spacing={0}>
-         {this.renderTitleModal()}
-         {this.renderDescriptionModal()}
-         {this.renderImageModal()}
-         {this.renderInputModal()}
-         {this.renderCheckboxModal()}
+         <RenderTitleModal surveyTitleDialog={this.state.surveyTitleDialog} surveyTitleText={this.state.surveyTitleText} changeSurveyTitle={this.changeSurveyTitle} removeDialog={(mode) => this.removeDialog('surveyTitleDialog')}/>
+         <RenderDescriptionModal surveyDescrDialog={this.state.surveyDescrDialog} removeDialog={(mode) => this.removeDialog('surveyDescrDialog')} surveyDescrText={this.state.surveyDescrText} changeSurveyDescr={this.changeSurveyDescr} />
+         <RenderImageModal surveyImageDialog={this.state.surveyImageDialog} removeDialog={(mode) => this.removeDialog('surveyImageDialog')} surveyImagePath={this.state.surveyImagePath} changeSurveyImage={this.changeSurveyImage} imagePreviewUrl={this.state.imagePreviewUrl}/>
+         <RenderInputModal surveyInputDialog={this.state.surveyInputDialog} removeDialog={(mode) => this.removeDialog('surveyInputDialog')} surveyInputLabelName={this.state.surveyInputLabelName} changeSurveyInputLabelName={this.changeSurveyInputLabelName} addInputHandler={this.addInputHandler}/>
+         <RenderCheckboxModal surveyCheckboxDialog={this.state.surveyCheckboxDialog} removeDialog={(mode) => this.removeDialog('surveyCheckboxDialog')}
+          surveyCheckboxTempQuestion={this.state.surveyCheckboxTempQuestion} changeSurveyCheckboxQuestion={this.changeSurveyCheckboxQuestion} surveyCheckboxNumber={this.state.surveyCheckboxNumber}
+          changeCheckboxNumber={this.changeCheckboxNumber} saveSurveyCheckboxHandler={this.saveSurveyCheckboxHandler} saveCheckboxNameHandler={this.saveCheckboxNameHandler} surveyCheckboxNameChangeHandler={this.surveyCheckboxNameChangeHandler}
+          surveyCheckboxInitValues={this.state.surveyCheckboxInitValues.checkboxOne.editingMode} editCheckboxNameHandler={this.editCheckboxNameHandler}
+          checkboxOneInitValue={this.state.surveyCheckboxInitValues.checkboxOne.value}
+          checkboxTwoInitValue={this.state.surveyCheckboxInitValues.checkboxTwo.value}
+          checkboxThreeInitValue={this.state.surveyCheckboxInitValues.checkboxThree.value}
+          checkboxFourInitValue={this.state.surveyCheckboxInitValues.checkboxFour.value}
+          checkboxFiveInitValue={this.state.surveyCheckboxInitValues.checkboxFive.value}
+          surveyCheckboxNumber={this.state.surveyCheckboxNumber}/>
          <Grid item md={3}>
             <div className={classes.SideBar}>
                 <h1>SURVEYBUDDY</h1>
@@ -569,7 +358,7 @@ class CreateSurveyWizard extends Component {
                 <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#000', }} btntype='secondary'>Go Back</Button>
                 <div style={{textAlign: 'center'}}>
                     <p>SurveyName</p>
-                    {surveyName}
+                    <SurveyName surveyNameEditingMode={this.state.surveyNameEditingMode} surveyNameText={this.state.surveyNameText} surveyNameChange={this.surveyNameChange} saveSurveyName={this.saveSurveyName} editSurveyName={this.editSurveyName}/>
                 </div>
                 <h3>INSERT</h3>
                 <Button onClick={this.initSurveyTitleDialog}>Title</Button>
