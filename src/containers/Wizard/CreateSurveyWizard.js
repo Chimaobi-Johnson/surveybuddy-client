@@ -12,6 +12,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormGroup from '@material-ui/core/FormGroup';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import isEmpty from 'lodash/isEmpty';
 import SurveyName from './SurveyName/SurveyName';
 import RenderTitleModal from './Title/RenderTitleModal';
@@ -19,6 +24,9 @@ import RenderDescriptionModal from './Description/RenderDescriptionModal';
 import RenderImageModal from './Image/RenderImageModal';
 import RenderInputModal from './Input/RenderInputModal';
 import RenderCheckboxModal from './Checkbox/RenderCheckboxModal';
+import RenderRadioModal from './Radio/RenderRadioModal';
+import RenderFooterModal from './Footer/RenderFooterModal';
+
 
 import * as classes from './CreateSurveyWizard.module.css';
 
@@ -28,12 +36,14 @@ class CreateSurveyWizard extends Component {
   state = {
     surveyPage: null,
     surveyNameEditingMode: false,
-    surveyNameText: '',
+    surveyNameText: 'my survey 1',
     surveyTitleDialog: false,
     surveyDescrDialog: false,
     surveyImageDialog: false,
     surveyInputDialog: false,
     surveyCheckboxDialog: false,
+    surveyRadioDialog: false,
+    surveyFooterDialog: false,
     surveyCheckboxes: {
       checkboxOne: {
         surveyCheckboxQuestion: '',
@@ -69,11 +79,43 @@ class CreateSurveyWizard extends Component {
         value: ''
       },
     },
+    surveyRadioOptions: {
+      radioOne: {
+        surveyRadioQuestion: '',
+        surveyRadioOptionNames: [],
+        surveyRadioAnswer: '',
+        isDisplayed: false
+      },
+      radioTwo: {
+        surveyRadioQuestion: '',
+        surveyRadioOptionNames: [],
+        surveyRadioAnswer: '',
+        isDisplayed: false
+      },
+      radioThree: {
+        surveyRadioQuestion: '',
+        surveyRadioOptionNames: [],
+        surveyRadioAnswer: '',
+        isDisplayed: false
+      }
+    },
+    surveyRadioInitValues: {
+      optionOne: {
+        value: 'Option 1',
+        editingMode: false
+      },
+      optionTwo: {
+        value: 'Option 2',
+        editingMode: false
+      }
+    },
     surveyCheckboxTempQuestion: '',
+    surveyRadioTempQuestion: '',
     surveyCheckboxNumber: 0,
     surveyCheckboxTempValue: '',
     surveyTitleText: '',
     surveyDescrText: '',
+    surveyFooterText: '',
     surveyInputLabelName: '',
     surveyInputs: {},
     imagePreviewUrl: '',
@@ -82,6 +124,22 @@ class CreateSurveyWizard extends Component {
 
   componentDidMount() {
 
+  }
+
+  storeCustomSurveyFormHandler = () => {
+    // prompt('Please cross check your form very well because once you proceed you cant edit form again');
+     const userCustomSurveyForm = {
+       surveyName: this.state.surveyNameText,
+       surveyTitleText: this.state.surveyTitleText,
+       surveyDescrText: this.state.surveyDescrText,
+       surveyFooterText: this.state.surveyFooterText,
+       imagePreviewUrl: this.state.imagePreviewUrl,
+       file: this.state.file,
+       surveyInputs: {...this.state.surveyInputs},
+       surveyCheckboxes: {...this.state.surveyCheckboxes},
+       surveyRadioOptions: {...this.state.surveyRadioOptions}
+     }
+     console.log(userCustomSurveyForm);
   }
 
   removeDialog = (dialogName) => {
@@ -217,7 +275,7 @@ class CreateSurveyWizard extends Component {
              checkboxObj.value = '';
          });
          surveyCheckbox.checkboxOne.surveyCheckboxNames = checkboxNames
-         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: '', surveyCheckboxInitValues: surveyCheckboxInitValues});
+         this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: '', surveyCheckboxInitValues: surveyCheckboxInitValues, surveyCheckboxDialog: false});
         break;
       case surveyCheckbox.checkboxTwo.isDisplayed:
         surveyCheckbox.checkboxTwo.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
@@ -233,7 +291,7 @@ class CreateSurveyWizard extends Component {
             checkboxObj.value = '';
         });
         surveyCheckbox.checkboxTwo.surveyCheckboxNames = checkboxNames
-        this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
+        this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: '', surveyCheckboxDialog: false });
         break;
       case surveyCheckbox.checkboxThree.isDisplayed:
         surveyCheckbox.checkboxThree.surveyCheckboxQuestion = this.state.surveyCheckboxTempQuestion;
@@ -249,7 +307,7 @@ class CreateSurveyWizard extends Component {
             checkboxObj.value = '';
         });
         surveyCheckbox.checkboxThree.surveyCheckboxNames = checkboxNames
-        this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: ''});
+        this.setState({surveyCheckboxes: surveyCheckbox, surveyCheckboxTempQuestion: '', surveyCheckboxDialog: false });
        break;
       default:
         return alert('You cant add more than 3 checkbox questions'); //issue here
@@ -257,8 +315,9 @@ class CreateSurveyWizard extends Component {
   }
 
   deleteSurveyCheckBoxHandler = (checkboxObj) => {
-      console.log(checkboxObj);
+    console.log(checkboxObj);
   }
+
 
   renderSurveyCheckbox() {
     let checkboxItems, checkboxDeleteBtn;
@@ -294,10 +353,99 @@ class CreateSurveyWizard extends Component {
     this.setState({surveyCheckboxInitValues: checkboxInitValues});
   }
 
+  initSurveyRadioDialog = () => {
+    this.setState({surveyRadioDialog: true});
+  }
+
+  changeSurveyRadioQuestion = event => {
+    this.setState({ surveyRadioTempQuestion: event.target.value });
+  }
+
+  saveSurveyRadioHandler = () => {
+
+    const surveyRadioOptions = {...this.state.surveyRadioOptions};
+    const surveyRadioInitValues = {...this.state.surveyRadioInitValues};
+    let radioOptions = {};
+    // loop each checkbox from one to three and transfer it from the initial state which is surveyCheckboxInitValues
+    // to the permanent state which is either in checkbox one, two or three depending on how many the users wants
+    switch (false) {
+      case surveyRadioOptions.radioOne.isDisplayed:
+         surveyRadioOptions.radioOne.surveyRadioQuestion = this.state.surveyRadioTempQuestion;
+         surveyRadioOptions.radioOne.isDisplayed = true;
+         Object.values(surveyRadioInitValues).map(radioObj => {
+           surveyRadioOptions.radioOne.surveyRadioOptionNames.push(radioObj.value);
+         });
+         this.setState({surveyRadioOptions: surveyRadioOptions, surveyRadioTempQuestion: '', surveyRadioDialog: false });
+        break;
+      case surveyRadioOptions.radioTwo.isDisplayed:
+         surveyRadioOptions.radioTwo.surveyRadioQuestion = this.state.surveyRadioTempQuestion;
+         surveyRadioOptions.radioTwo.isDisplayed = true;
+         Object.values(surveyRadioInitValues).map(radioObj => {
+           surveyRadioOptions.radioTwo.surveyRadioOptionNames.push(radioObj.value);
+         });
+         this.setState({surveyRadioOptions: surveyRadioOptions, surveyRadioTempQuestion: '', surveyRadioDialog: false });
+        break;
+      case surveyRadioOptions.radioThree.isDisplayed:
+         surveyRadioOptions.radioThree.surveyRadioQuestion = this.state.surveyRadioTempQuestion;
+         surveyRadioOptions.radioThree.isDisplayed = true;
+         Object.values(surveyRadioInitValues).map(radioObj => {
+           surveyRadioOptions.radioThree.surveyRadioOptionNames.push(radioObj.value);
+         });
+         this.setState({surveyRadioOptions: surveyRadioOptions, surveyRadioTempQuestion: '', surveyRadioDialog: false });
+        break;
+      default:
+        return alert('You cant add more than 3 Radio Options'); //issue here
+    }
+
+  }
+
+
+  renderSurveyRadioOptions() {
+      return Object.values(this.state.surveyRadioOptions).map(radioObj => {
+        if(radioObj.surveyRadioOptionNames.length !== 0) {
+          return (
+            <>
+            <h3>{radioObj.surveyRadioQuestion}</h3>
+            <FormLabel component="legend"></FormLabel>
+            <RadioGroup style={{display: 'block'}} row aria-label="" name="" value=''>
+              <FormControlLabel value={radioObj.surveyRadioOptionNames[0]} control={<Radio />} label={radioObj.surveyRadioOptionNames[0]} />
+              <FormControlLabel value={radioObj.surveyRadioOptionNames[1]} control={<Radio />} label={radioObj.surveyRadioOptionNames[1]} />
+            </RadioGroup>
+            <Button>Delete</Button>
+            </>)
+        }
+      });
+    }
+
+  initSurveyFooterDialog = () => {
+    this.setState({ surveyFooterDialog: true });
+  }
+
+  changeSurveyFooterText = event => {
+    this.setState({ surveyFooterText: event.target.value });
+  }
+
+  changeSurveyRadioName = (event, option) => {
+    const surveyRadioInitValues = {...this.state.surveyRadioInitValues};
+    surveyRadioInitValues[option].value = event.target.value;
+    this.setState({ surveyRadioInitValues });
+  }
+
+  editRadioNamesHandler = () => {
+    const surveyRadioInitValues = {...this.state.surveyRadioInitValues};
+    surveyRadioInitValues.optionOne.editingMode = true;
+    this.setState({ surveyRadioInitValues });
+  }
+
+  saveRadioNamesHandler = () => {
+    const surveyRadioInitValues = {...this.state.surveyRadioInitValues};
+    surveyRadioInitValues.optionOne.editingMode = false;
+    this.setState({ surveyRadioInitValues });
+  }
+
   renderDashboardContent() {
     return (
       <div className={classes.DashboardContent}>
-        <h2>Create Your Survey Form</h2>
         <h2 style={{textAlign: 'center'}}>{this.state.surveyTitleText}</h2>
         <p style={{textAlign: 'center'}}>{this.state.surveyDescrText}</p>
         <div className={classes.SurveyImageBox}>
@@ -324,7 +472,9 @@ class CreateSurveyWizard extends Component {
         </div>
         <div style={{textAlign: 'center'}}>
           {this.renderSurveyCheckbox()}
+          {this.renderSurveyRadioOptions()}
         </div>
+        <div className={classes.SurveyFooterText}>{this.state.surveyFooterText ? this.state.surveyFooterText : null}</div>
       </div>
     )
   }
@@ -349,6 +499,13 @@ class CreateSurveyWizard extends Component {
           checkboxFourInitValue={this.state.surveyCheckboxInitValues.checkboxFour.value}
           checkboxFiveInitValue={this.state.surveyCheckboxInitValues.checkboxFive.value}
           surveyCheckboxNumber={this.state.surveyCheckboxNumber}/>
+          <RenderRadioModal surveyRadioDialog={this.state.surveyRadioDialog} removeDialog={(mode) => this.removeDialog('surveyRadioDialog')}
+          surveyRadioTempQuestion={this.state.surveyRadioTempQuestion} changeSurveyRadioQuestion={this.changeSurveyRadioQuestion} saveSurveyRadioHandler={this.saveSurveyRadioHandler}
+          optionOne={this.state.surveyRadioInitValues.optionOne.value} optionTwo={this.state.surveyRadioInitValues.optionTwo.value}
+          editingMode={this.state.surveyRadioInitValues.optionOne.editingMode} changeSurveyRadioName={this.changeSurveyRadioName}
+          editRadioNamesHandler={this.editRadioNamesHandler} saveRadioNamesHandler={this.saveRadioNamesHandler}/>
+          <RenderFooterModal surveyFooterDialog={this.state.surveyFooterDialog} surveyFooterText={this.state.surveyFooterText} changeSurveyFooterText={this.changeSurveyFooterText} removeDialog={(mode) => this.removeDialog('surveyFooterDialog')}/>
+
          <Grid item md={3}>
             <div className={classes.SideBar}>
                 <h1>SURVEYBUDDY</h1>
@@ -366,14 +523,15 @@ class CreateSurveyWizard extends Component {
                 <Button onClick={this.initSurveyImageDialog}>Logo/Image</Button>
                 <Button onClick={this.initSurveyInputDialog}>Input</Button>
                 <Button onClick={this.initSurveyCheckboxDialog}>Checkbox</Button>
-                <Button>Radio Options</Button>
-                <Button>Footer text</Button>
+                <Button onClick={this.initSurveyRadioDialog}>Radio Options</Button>
+                <Button onClick={this.initSurveyFooterDialog}>Footer text</Button>
                 <p className={classes.Copyright}>CopyrightcMarvisConcepts</p>
              </div>)
             </Grid>
 
             <Grid item md={9}>
                 <div className={classes.DashboardMain}>
+                <a href="#" onClick={this.storeCustomSurveyFormHandler} className={classes.NextBtn}>Next</a>
                   <div className={classes.DashboardInnerBox}>
                     {this.renderDashboardContent()}
                   </div>
