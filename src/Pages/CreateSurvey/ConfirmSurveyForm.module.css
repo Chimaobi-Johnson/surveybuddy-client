@@ -1,0 +1,114 @@
+.OuterBox {
+  background-color: rgba(39, 39, 41);
+  height: 110vh;
+  margin: 0;
+  padding-top: 4rem;
+}
+
+.BtnBack {
+   padding: 1.5rem 2rem;
+   background-color: green;
+   position: fixed;
+   z-index: 50;
+   border-top-right-radius: .5rem;
+   border-bottom-right-radius: .5rem;
+   color: #fff;
+   top: 48%;
+   text-decoration: none;
+   left: 0;
+}
+
+.BtnSave {
+  padding: 1.5rem 2rem;
+  background-color: green;
+  position: fixed;
+  z-index: 50;
+  border-top-left-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+  color: #fff;
+  top: 48%;
+  text-decoration: none;
+  right: 0;
+}
+
+.SurveyFooterText {
+  text-align: center;
+  font-size: .8rem;
+  font-style: italic;
+  /* border-bottom: 1px solid #ccc; */
+  padding-bottom: .5rem;
+}
+
+.FormBox {
+  width: 82%;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: #fff;
+  text-align: center;
+}
+
+.InnerFormBox {
+  width: 80%;
+  height: 210px;
+  margin: 0 auto;
+  padding-top: 3rem;
+}
+
+
+.InputArea {
+  text-align: left;
+  margin: 5rem;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.InputArea label {
+  margin-right: 2rem;
+  width: 100%;
+  display: block;
+}
+
+.InputArea input {
+  width: 100%;
+  display: block;
+}
+
+.SurveyName {
+  display: block;
+  background-color: rgba(27, 26, 26, 1);
+  padding: 2rem;
+  color: #fff;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.SurveyImageBox img{
+  width: 15rem;
+  height: 10rem;
+  display: inline-block;
+}
+
+.SurveyImageBoxCircle img {
+  width: 15rem;
+  height: 10rem;
+  border-radius: 100%;
+  margin: auto 50%;
+}
+
+
+.InputArea label {
+  margin-right: 2rem;
+  width: 100%;
+  display: block;
+}
+
+.InputArea input {
+  width: 100%;
+  display: block;
+}
+
+.InputArea div {
+  margin: .5rem
+}

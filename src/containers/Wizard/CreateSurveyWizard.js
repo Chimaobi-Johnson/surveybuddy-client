@@ -26,6 +26,24 @@ import RenderInputModal from './Input/RenderInputModal';
 import RenderCheckboxModal from './Checkbox/RenderCheckboxModal';
 import RenderRadioModal from './Radio/RenderRadioModal';
 import RenderFooterModal from './Footer/RenderFooterModal';
+import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
+import IconButton from '@material-ui/core/IconButton';
+import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
+import ImageRoundedIcon from '@material-ui/icons/ImageRounded';
+import InputRoundedIcon from '@material-ui/icons/InputRounded';
+import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
+import TextFieldsRoundedIcon from '@material-ui/icons/TextFieldsRounded';
+import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import Fab from '@material-ui/core/Fab';
+
+import Avatar from '@material-ui/core/Avatar';
+import Icon from '@material-ui/core/Icon';
+
+import * as actions from '../../store/actions';
 
 
 import * as classes from './CreateSurveyWizard.module.css';
@@ -123,7 +141,19 @@ class CreateSurveyWizard extends Component {
   }
 
   componentDidMount() {
-
+     if(this.props.customSurvey) {
+       this.setState({
+         surveyNameText: this.props.customSurvey.surveyName,
+         surveyTitleText: this.props.customSurvey.surveyTitleText,
+         surveyDescrText: this.props.customSurvey.surveyDescrText,
+         surveyFooterText: this.props.customSurvey.surveyFooterText,
+         imagePreviewUrl: this.props.customSurvey.imagePreviewUrl,
+         file: this.props.customSurvey.file,
+         surveyInputs: { ...this.props.customSurvey.surveyInputs },
+         surveyCheckboxes: { ...this.props.customSurvey.surveyCheckboxes },
+         surveyRadioOptions: { ...this.props.customSurvey.surveyRadioOptions }
+       })
+     }
   }
 
   storeCustomSurveyFormHandler = () => {
@@ -139,7 +169,9 @@ class CreateSurveyWizard extends Component {
        surveyCheckboxes: {...this.state.surveyCheckboxes},
        surveyRadioOptions: {...this.state.surveyRadioOptions}
      }
-     console.log(userCustomSurveyForm);
+     // console.log(userCustomSurveyForm);
+     this.props.storeCustomSurveyForm(userCustomSurveyForm);
+     this.props.history.push('/surveys/confirm');
   }
 
   removeDialog = (dialogName) => {
@@ -315,28 +347,42 @@ class CreateSurveyWizard extends Component {
   }
 
   deleteSurveyCheckBoxHandler = (checkboxObj) => {
-    console.log(checkboxObj);
+    // checkbox is an Object
+    // surveyCheckboxes is spread out here and the surveyCheckboxQuestion is used as
+    // a unique identifier to compare and get the current checkbox the user wants to delete
+    const surveyCheckboxes = {...this.state.surveyCheckboxes};
+    Object.values(surveyCheckboxes).map(checkbox => {
+      if(checkbox.surveyCheckboxQuestion === checkboxObj.surveyCheckboxQuestion) {
+        checkbox.surveyCheckboxQuestion = '';
+        checkbox.surveyCheckboxNames = {};
+        checkbox.isDisplayed = false;
+      }
+    });
+    this.setState({ surveyCheckboxes });
   }
+
+  // if(!isEmpty(checkboxObj.surveyCheckboxNames)) {
+  //   checkboxDeleteBtn = <Button onClick={(checkboxObj) => this.deleteSurveyCheckBoxHandler(checkboxObj)}>Delete</Button>;
+  // }
 
 
   renderSurveyCheckbox() {
     let checkboxItems, checkboxDeleteBtn;
      return Object.values(this.state.surveyCheckboxes).map(checkboxObj => {
        if(checkboxObj.surveyCheckboxNames) {
-         if(!isEmpty(checkboxObj.surveyCheckboxNames)) {
-           checkboxDeleteBtn = <Button onClick={(checkboxObj) => this.deleteSurveyCheckBoxHandler(checkboxObj)}>Delete</Button>;
-         }
          // To render checkbox items
          checkboxItems = Object.keys(checkboxObj.surveyCheckboxNames)
          .map(checkbox => {
-           return <FormControlLabel control={<Checkbox checked={false} value="checkedB" color="primary" />} label={checkbox}/>
+           return <FormControlLabel
+            control={<Checkbox checked={false} value="checkedB" color="primary" />}
+            label={checkbox}/>
          });
        }
        return (
          <>
            <h4>{checkboxObj.surveyCheckboxQuestion}</h4>
            {checkboxItems}
-           {checkboxDeleteBtn}
+           {checkboxObj.surveyCheckboxQuestion ? <Button onClick={(checkbox) => this.deleteSurveyCheckBoxHandler(checkboxObj)}>Delete</Button> : null}
          </>
        )
      })
@@ -399,6 +445,21 @@ class CreateSurveyWizard extends Component {
 
   }
 
+  deleteSurveyRadioOptionHandler = (radio) => {
+    // radio is an Object
+    // surveyRadioOptions is spread out here and the surveyRadioQuestion is used as
+    // a unique identifier to compare and get the current radio the user wants to delete
+    // const surveyRadioOptions = {...this.state.surveyRadioOptions};
+    // Object.values(surveyRadioOptions).map(radioObj => {
+    //   if(radioObj.surveyRadioQuestion === radio.surveyRadioQuestion) {
+    //     radioObj.surveyRadioQuestion = '';
+    //     radioObj.surveyRadioOptionNames.length = 0;
+    //     radioObj.isDisplayed = false;
+    //   }
+    // });
+    // this.setState({ surveyRadioOptions });
+    console.log(radio);
+  }
 
   renderSurveyRadioOptions() {
       return Object.values(this.state.surveyRadioOptions).map(radioObj => {
@@ -411,7 +472,7 @@ class CreateSurveyWizard extends Component {
               <FormControlLabel value={radioObj.surveyRadioOptionNames[0]} control={<Radio />} label={radioObj.surveyRadioOptionNames[0]} />
               <FormControlLabel value={radioObj.surveyRadioOptionNames[1]} control={<Radio />} label={radioObj.surveyRadioOptionNames[1]} />
             </RadioGroup>
-            <Button>Delete</Button>
+            <Button onClick={(radio) => this.deleteSurveyRadioOptionHandler(radioObj)}>Delete</Button>
             </>)
         }
       });
@@ -506,32 +567,57 @@ class CreateSurveyWizard extends Component {
           editRadioNamesHandler={this.editRadioNamesHandler} saveRadioNamesHandler={this.saveRadioNamesHandler}/>
           <RenderFooterModal surveyFooterDialog={this.state.surveyFooterDialog} surveyFooterText={this.state.surveyFooterText} changeSurveyFooterText={this.changeSurveyFooterText} removeDialog={(mode) => this.removeDialog('surveyFooterDialog')}/>
 
-         <Grid item md={3}>
+         <Grid item md={3} xs={12} sm={12}>
             <div className={classes.SideBar}>
                 <h1>SURVEYBUDDY</h1>
-                <div style={{width: '7rem', height: '7rem', backgroundColor: '#ccc', borderRadius: '100%', margin: '0 auto'}}></div>
+                <div>
+                  <Icon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}} fontSize='large'><AccountCircleIcon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}}/></Icon>
+                </div>
                 <p>Chimaobi</p>
-                <h3>Wizard</h3>
-                <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#000', }} btntype='secondary'>Go Back</Button>
+                <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
                 <div style={{textAlign: 'center'}}>
                     <p>SurveyName</p>
+                    <ArrowDownwardIcon />
                     <SurveyName surveyNameEditingMode={this.state.surveyNameEditingMode} surveyNameText={this.state.surveyNameText} surveyNameChange={this.surveyNameChange} saveSurveyName={this.saveSurveyName} editSurveyName={this.editSurveyName}/>
                 </div>
                 <h3>INSERT</h3>
-                <Button onClick={this.initSurveyTitleDialog}>Title</Button>
-                <Button onClick={this.initSurveyDescrDialog}>Description</Button>
-                <Button onClick={this.initSurveyImageDialog}>Logo/Image</Button>
-                <Button onClick={this.initSurveyInputDialog}>Input</Button>
-                <Button onClick={this.initSurveyCheckboxDialog}>Checkbox</Button>
-                <Button onClick={this.initSurveyRadioDialog}>Radio Options</Button>
-                <Button onClick={this.initSurveyFooterDialog}>Footer text</Button>
-                <p className={classes.Copyright}>CopyrightcMarvisConcepts</p>
+                <div className={classes.ActionButtons}>
+                <Fab variant="extended"  onClick={this.initSurveyTitleDialog}>
+                <TitleRoundedIcon />
+                  Title
+                </Fab>
+                <Fab variant="extended" onClick={this.initSurveyDescrDialog}>
+                 <DescriptionRoundedIcon />
+                 Description
+                </Fab>
+                <Fab variant="extended" onClick={this.initSurveyImageDialog}>
+                <ImageRoundedIcon />
+                Logo/Image
+                </Fab>
+                <Fab variant="extended" onClick={this.initSurveyInputDialog}>
+                <InputRoundedIcon />
+                Input
+                </Fab>
+                <Fab onClick={this.initSurveyCheckboxDialog}>
+                <CheckBoxRoundedIcon />
+                Checkbox
+                </Fab>
+                <Fab onClick={this.initSurveyFooterDialog}>
+                <TextFieldsRoundedIcon />
+                Footer text
+                </Fab>
+                <Fab onClick={this.initSurveyRadioDialog}>
+                <RadioButtonCheckedRoundedIcon />
+                Radio Options
+                </Fab>
+                <p className={classes.Copyright}></p>
+                </div>
              </div>)
             </Grid>
 
-            <Grid item md={9}>
+            <Grid item md={9} xs={12} sm={12}>
                 <div className={classes.DashboardMain}>
-                <a href="#" onClick={this.storeCustomSurveyFormHandler} className={classes.NextBtn}>Next</a>
+                <a href="#" onClick={this.storeCustomSurveyFormHandler} className={classes.NextBtn}>Next <Icon><NavigateNextIcon /></Icon></a>
                   <div className={classes.DashboardInnerBox}>
                     {this.renderDashboardContent()}
                   </div>
@@ -545,8 +631,15 @@ class CreateSurveyWizard extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.authReducer
+    auth: state.authReducer,
+    customSurvey: state.surveysReducer.surveyFormData
   }
 }
 
-export default connect(mapStateToProps)(CreateSurveyWizard);
+const mapDispatchToProps = dispatch => {
+  return {
+    storeCustomSurveyForm: (userCustomSurveyForm) => dispatch(actions.storeCustomSurveyForm(userCustomSurveyForm)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSurveyWizard);

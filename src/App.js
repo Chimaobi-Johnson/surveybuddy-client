@@ -4,6 +4,7 @@ import Landing from './components/Landing/Landing';
 import AuthModal from './containers/Authentication/AuthModal';
 import HomeBody from './containers/HomeBody/HomeBody';
 import Dashboard from './Pages/Dashboard';
+import ConfirmSurveyForm from './Pages/CreateSurvey/ConfirmSurveyForm';
 import CreateSurvey from './containers/Wizard/CreateSurveyWizard';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
@@ -19,6 +20,7 @@ class App extends Component {
  render() {
    let routes = (
     <Switch>
+       <Route path="/surveys/confirm" component={ConfirmSurveyForm} />
        <Route path="/surveys/new" component={CreateSurvey} />
        <Route path="/surveys" component={Dashboard} />
        <Route path="/" exact component={Landing}/>

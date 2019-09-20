@@ -7,9 +7,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import Auth from './store/reducers/authReducer';
+import Survey from './store/reducers/surveysReducer';
 
 const rootReducer = combineReducers({
-    authReducer: Auth
+    authReducer: Auth,
+    surveysReducer: Survey
 });
 
 
@@ -21,7 +23,7 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
  and this is useful for asynchronous code */
 
 
-ReactDOM.render( 
+ReactDOM.render(
   <BrowserRouter>
         <Provider store={store}>
        		 <App />

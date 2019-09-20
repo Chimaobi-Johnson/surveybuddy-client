@@ -15,23 +15,23 @@ const surveyName = props => {
         value={props.surveyNameText}
         onChange={props.surveyNameChange}
       />
-      <Button onClick={props.saveSurveyName}>Save</Button>
+      <Button style={{color: '#ff9800'}} onClick={props.saveSurveyName}>Save</Button>
       </>
     )
    } else {
        surveyName = (
         <>
        <h3>{props.surveyNameText}</h3>
-       <Button onClick={props.editSurveyName}>Edit</Button>
+       <Button style={{color: '#ff9800'}} onClick={props.editSurveyName}>Edit</Button>
        </>
       )
    }
 
 
    return (
-     <>
+     <div style={{color: '#fff'}}>
     {surveyName}
-    </>
+    </div>
    )
 
 }

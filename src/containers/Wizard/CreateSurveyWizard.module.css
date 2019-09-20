@@ -22,7 +22,21 @@
   height: 100vh;
   position: fixed;
   z-index: 50;
-  background-color: #ff9800;
+  color: #fff;
+  /* background-color: #ff9800; */
+  background-color: rgba(27, 26, 26, 1);
+}
+
+@media (max-width: 767px) {
+  .SideBar {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 50;
+    color: #fff;
+    /* background-color: #ff9800; */
+    background-color: rgba(27, 26, 26, 1);
+  }
 }
 
 .SideBar h1 {
@@ -53,7 +67,7 @@
 }
 
 .NextBtn {
-  background-color: red;
+  background-color: rgba(27, 26, 26, 1);;
   text-decoration: none;
   position: fixed;
   z-index: 50;
@@ -119,6 +133,34 @@
   margin: .5rem
 }
 
+.ActionButtons {
+  /* display: flex; */
+}
+
+.ActionButtons button {
+  background-color: #000;
+  color: #fff;
+  width: 50%;
+  border-radius: 0;
+  display: inline-block;
+  /* padding: 2rem 3rem; */
+  background-color: #ff9800;
+  /* border: .5px solid #fff; */
+
+}
+
+/* .Avatar {
+ height: 7rem;
+ width: 7rem;
+} */
+
+.ActionButtons button:hover {
+  /* background-color: rgba(27, 26, 26, 1); */
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  color: #000;
+}
+
 .Copyright {
   position: absolute;
   bottom: .5rem;
@@ -134,4 +176,5 @@
   font-style: italic;
   /* border-bottom: 1px solid #ccc; */
   padding-bottom: .5rem;
+  padding-top: 5rem;
 }
