@@ -39,9 +39,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Fab from '@material-ui/core/Fab';
-
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
+import SideBar from '../Navigation/SideBar';
 
 import * as actions from '../../store/actions';
 
@@ -568,12 +568,7 @@ class CreateSurveyWizard extends Component {
           <RenderFooterModal surveyFooterDialog={this.state.surveyFooterDialog} surveyFooterText={this.state.surveyFooterText} changeSurveyFooterText={this.changeSurveyFooterText} removeDialog={(mode) => this.removeDialog('surveyFooterDialog')}/>
 
          <Grid item md={3} xs={12} sm={12}>
-            <div className={classes.SideBar}>
-                <h1>SURVEYBUDDY</h1>
-                <div>
-                  <Icon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}} fontSize='large'><AccountCircleIcon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}}/></Icon>
-                </div>
-                <p>Chimaobi</p>
+            <SideBar>
                 <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
                 <div style={{textAlign: 'center'}}>
                     <p>SurveyName</p>
@@ -582,37 +577,38 @@ class CreateSurveyWizard extends Component {
                 </div>
                 <h3>INSERT</h3>
                 <div className={classes.ActionButtons}>
-                <Fab variant="extended"  onClick={this.initSurveyTitleDialog}>
-                <TitleRoundedIcon />
-                  Title
-                </Fab>
-                <Fab variant="extended" onClick={this.initSurveyDescrDialog}>
-                 <DescriptionRoundedIcon />
-                 Description
-                </Fab>
-                <Fab variant="extended" onClick={this.initSurveyImageDialog}>
-                <ImageRoundedIcon />
-                Logo/Image
-                </Fab>
-                <Fab variant="extended" onClick={this.initSurveyInputDialog}>
-                <InputRoundedIcon />
-                Input
-                </Fab>
-                <Fab onClick={this.initSurveyCheckboxDialog}>
-                <CheckBoxRoundedIcon />
-                Checkbox
-                </Fab>
-                <Fab onClick={this.initSurveyFooterDialog}>
-                <TextFieldsRoundedIcon />
-                Footer text
-                </Fab>
-                <Fab onClick={this.initSurveyRadioDialog}>
-                <RadioButtonCheckedRoundedIcon />
-                Radio Options
-                </Fab>
+                    <Fab variant="extended"  onClick={this.initSurveyTitleDialog}>
+                    <TitleRoundedIcon />
+                      Title
+                    </Fab>
+                    <Fab variant="extended" onClick={this.initSurveyDescrDialog}>
+                     <DescriptionRoundedIcon />
+                     Description
+                    </Fab>
+                    <Fab variant="extended" onClick={this.initSurveyImageDialog}>
+                    <ImageRoundedIcon />
+                    Logo/Image
+                    </Fab>
+                    <Fab variant="extended" onClick={this.initSurveyInputDialog}>
+                    <InputRoundedIcon />
+                    Input
+                    </Fab>
+                    <Fab onClick={this.initSurveyCheckboxDialog}>
+                    <CheckBoxRoundedIcon />
+                    Checkbox
+                    </Fab>
+                    <Fab onClick={this.initSurveyFooterDialog}>
+                    <TextFieldsRoundedIcon />
+                    Footer text
+                    </Fab>
+                    <Fab onClick={this.initSurveyRadioDialog}>
+                    <RadioButtonCheckedRoundedIcon />
+                    Radio Options
+                    </Fab>
                 <p className={classes.Copyright}></p>
                 </div>
-             </div>)
+            </SideBar>
+
             </Grid>
 
             <Grid item md={9} xs={12} sm={12}>

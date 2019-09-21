@@ -1,0 +1,39 @@
+.Container {
+ background-color: rgba(237, 237, 237);
+}
+
+.Triangle {
+  position: absolute;
+  width: 42%;
+  height: 60vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(27, 26, 26, 1);
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
+  color: #fff;
+  padding: 2rem;
+}
+
+.FormContainer {
+  padding: 2rem;
+  width: 40%;
+  position: absolute;
+  background-color: #ff9800;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 1px 2px 2px #ccc;
+  margin-top: 2rem;
+}
+
+.FormContainer h2 {
+  text-align: center;
+}
+
+.FormContainer div {
+  margin-bottom: 2rem;
+}
+
+.FormContainer input {
+  background-color: #fff;
+}

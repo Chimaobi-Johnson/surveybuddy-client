@@ -1,0 +1,189 @@
+.Dashboard {
+  height: 100vh;
+  width: 100%;
+  background-color: red;
+}
+
+.SurveyImageBox img{
+  width: 15rem;
+  height: 10rem;
+  display: inline-block;
+}
+
+.SurveyImageBoxCircle img {
+  width: 15rem;
+  height: 10rem;
+  border-radius: 100%;
+  margin: auto 50%;
+}
+
+.SideBar {
+  width: 25%;
+  height: 100vh;
+  position: fixed;
+  z-index: 50;
+  color: #fff;
+  /* background-color: #ff9800; */
+  background-color: rgba(27, 26, 26, 1);
+}
+
+@media (max-width: 767px) {
+  .SideBar {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 50;
+    color: #fff;
+    /* background-color: #ff9800; */
+    background-color: rgba(27, 26, 26, 1);
+  }
+}
+
+.SideBar h1 {
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+.SideBar h2 {
+   margin-left: 1rem;
+   margin-top: 5rem;
+   padding: 1rem;
+}
+
+.SideBar h3 {
+  text-align: center;
+}
+
+.SideBar h2:hover {
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+.SideBar p {
+   text-align: center;
+   font-size: 1.2rem;
+}
+
+.NextBtn {
+  background-color: rgba(27, 26, 26, 1);;
+  text-decoration: none;
+  position: fixed;
+  z-index: 50;
+  top: 45%;
+  right: 0;
+  color: #fff;
+  box-shadow: 1px 2px 2px #ccc;
+  font-size: 1.5rem;
+  padding: 1rem 1.5rem;
+}
+
+.NextBtn:hover {
+  box-shadow: 2px 3px 3px #ccc;
+}
+
+.DashboardMain {
+  background-color: #ccc;
+  width: 100%;
+  height: 200%;
+  position: relative;
+}
+
+.DashboardInnerBox {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+
+.DashboardContent {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  background-color: #fff;
+}
+
+.InputArea {
+  text-align: left;
+  margin: 5rem;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.InputArea label {
+  margin-right: 2rem;
+  width: 100%;
+  display: block;
+}
+
+.InputArea input {
+  width: 100%;
+  display: block;
+}
+
+.InputArea div {
+  margin: .5rem
+}
+
+.ActionButtons {
+  /* display: flex; */
+}
+
+.ActionButtons button {
+  background-color: #000;
+  color: #fff;
+  width: 50%;
+  border-radius: 0;
+  display: inline-block;
+  /* padding: 2rem 3rem; */
+  background-color: #ff9800;
+  /* border: .5px solid #fff; */
+
+}
+
+/* .Avatar {
+ height: 7rem;
+ width: 7rem;
+} */
+
+.ActionButtons button:hover {
+  /* background-color: rgba(27, 26, 26, 1); */
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  color: #000;
+}
+
+.Copyright {
+  position: absolute;
+  bottom: .5rem;
+  font-style: italic;
+  font-size: .8rem;
+  left: 2rem;
+  color: #fff;
+}
+
+.SurveyFooterText {
+  text-align: center;
+  font-size: .8rem;
+  font-style: italic;
+  /* border-bottom: 1px solid #ccc; */
+  padding-bottom: .5rem;
+  padding-top: 5rem;
+}
+
+.EmailData h3 {
+  margin: 0;
+}
+
+.EmailData div {
+  overflow: auto;
+  height: 8rem;
+}

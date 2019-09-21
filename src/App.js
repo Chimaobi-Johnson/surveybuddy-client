@@ -6,6 +6,8 @@ import HomeBody from './containers/HomeBody/HomeBody';
 import Dashboard from './Pages/Dashboard';
 import ConfirmSurveyForm from './Pages/CreateSurvey/ConfirmSurveyForm';
 import CreateSurvey from './containers/Wizard/CreateSurveyWizard';
+import CustomizeEmail from './Pages/CustomizeEmail/CustomizeEmail';
+import SurveyFinalReview from './Pages/SurveyFinalReview/SurveyFinalReview'
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import * as actions from './store/actions';
@@ -20,6 +22,8 @@ class App extends Component {
  render() {
    let routes = (
     <Switch>
+       <Route path="/surveys/review_final" component={SurveyFinalReview} />
+       <Route path="/surveys/customize_email" component={CustomizeEmail} />
        <Route path="/surveys/confirm" component={ConfirmSurveyForm} />
        <Route path="/surveys/new" component={CreateSurvey} />
        <Route path="/surveys" component={Dashboard} />
