@@ -34,49 +34,71 @@ import Fab from '@material-ui/core/Fab';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 import SideBar from '../../containers/Navigation/SideBar';
+import axios from 'axios';
 
 import * as classes from './SurveyFinalReview.module.css';
 
 
 class SurveyFinalReview extends Component {
 
+  state = {
+    survey: null
+  }
+
+  componentDidMount() {
+    axios.post('/api/survey_data', {surveyId: this.props.location.state.surveyId})
+    .then(result => {
+       const newSurvey = {...result.data.survey};
+       this.setState({ survey: newSurvey });
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
   render () {
+
+    console.log(this.state);
+
+    let reviewData = <h3>Loading...</h3>;
+
+    if(this.state.survey) {
+      reviewData = (
+        <Grid className={classes.Dashboard} container spacing={0}>
+        <Grid item md={3} xs={0} sm={0}>
+         <SideBar>
+           <Button style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
+           <div style={{textAlign: 'center'}}>
+               <p>SurveyName</p>
+               <ArrowDownwardIcon />
+               <h3>{this.state.survey.surveyName ? this.state.survey.surveyName : null}</h3>
+           <div className={classes.EmailData}>
+             <h3>EMAIL SUBJECT</h3>
+             <div>{this.state.survey.emailSubject ? this.state.survey.emailSubject : null}</div>
+             <h3>EMAIL BODY</h3>
+             <div>{this.state.survey.emailBody ? this.state.survey.emailBody : null}</div>
+             <h3>EMAIL RECIPIENTS</h3>
+             <div>{this.state.survey.emailRecipients ? this.state.survey.emailRecipients : null}</div>
+             </div>
+           </div>
+         </SideBar>
+           </Grid>
+
+           <Grid item md={9} xs={12} sm={12}>
+               <div className={classes.DashboardMain}>
+               <a href="#" className={classes.NextBtn}>SEND OUT SURVEY</a>
+                 <div className={classes.DashboardInnerBox}>
+
+                 </div>
+               </div>
+           </Grid>
+        </Grid>
+      )
+    }
+
     return (
            <div>
-              <Grid className={classes.Dashboard} container spacing={0}>
-              <Grid item md={3} xs={12} sm={12}>
-               <SideBar>
-                 <Button style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
-                 <div style={{textAlign: 'center'}}>
-                     <p>SurveyName</p>
-                     <ArrowDownwardIcon />
-                     <h3>SurveyName</h3>
-                 <div className={classes.EmailData}>
-                   <h3>EMAIL SUBJECT</h3>
-                   <div>WHITE CUBE PICTURES</div>
-                   <h3>EMAIL BODY</h3>
-                   <div>Please Follow the link below to fill in our survey. Thank You! <a href="#">this is the link</a></div>
-                   <h3>EMAIL RECIPIENTS</h3>
-                   <div>woguchimaobi@gmail.com, chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com, woguchimaobi@gmail.com,
-                    chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com,woguchimaobi@gmail.com,
-                    chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com
-                    woguchimaobi@gmail.com, chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com, woguchimaobi@gmail.com,
-                     chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com,woguchimaobi@gmail.com,
-                     chimaobi.dev@gmail.com, cjswags@yahoo.com, codelife2553@gmail.com, swiftthegenius@gmail.com</div>
-                   </div>
-                 </div>
-               </SideBar>
-                 </Grid>
-
-                 <Grid item md={9} xs={12} sm={12}>
-                     <div className={classes.DashboardMain}>
-                     <a href="#" className={classes.NextBtn}>SEND OUT SURVEY</a>
-                       <div className={classes.DashboardInnerBox}>
-
-                       </div>
-                     </div>
-                 </Grid>
-              </Grid>
+             {reviewData}
            </div>
     )
   }

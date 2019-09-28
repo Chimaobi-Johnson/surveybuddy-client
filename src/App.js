@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import TopNav from './containers/Navigation/TopNav';
-import Landing from './components/Landing/Landing';
 import AuthModal from './containers/Authentication/AuthModal';
 import HomeBody from './containers/HomeBody/HomeBody';
-import Dashboard from './Pages/Dashboard';
+import Dashboard from './Pages/Dashboard/Dashboard';
 import ConfirmSurveyForm from './Pages/CreateSurvey/ConfirmSurveyForm';
 import CreateSurvey from './containers/Wizard/CreateSurveyWizard';
 import CustomizeEmail from './Pages/CustomizeEmail/CustomizeEmail';
-import SurveyFinalReview from './Pages/SurveyFinalReview/SurveyFinalReview'
+import SurveyFinalReview from './Pages/SurveyFinalReview/SurveyFinalReview';
+import Home from './Pages/Home/Home';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import * as actions from './store/actions';
@@ -27,13 +27,12 @@ class App extends Component {
        <Route path="/surveys/confirm" component={ConfirmSurveyForm} />
        <Route path="/surveys/new" component={CreateSurvey} />
        <Route path="/surveys" component={Dashboard} />
-       <Route path="/" exact component={Landing}/>
+       <Route path="/" exact component={Home}/>
        <Redirect to="/" />
     </Switch>
    )
   return (
     <div className="App">
-        <TopNav />
         {routes}
     </div>
 

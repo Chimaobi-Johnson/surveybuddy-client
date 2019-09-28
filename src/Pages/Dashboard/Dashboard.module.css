@@ -5,7 +5,7 @@
 }
 
 .DashboardMain {
-  background-color: #fff;
+  background-color: red;
   width: 100%;
   height: 100%;
   position: relative;
@@ -22,6 +22,19 @@
   box-shadow: 2px 3px 3px #ccc;
 }
 
+@media (max-width: 768px) {
+  .DashboardInnerBox {
+    position: absolute;
+    font-size: 1.3rem;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    padding: 1rem;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .CreateSurveyBtn {
   color: #fff;
   background-color: #ff9800;
@@ -34,3 +47,20 @@
   text-align: center;
   width: 100%;
 }
+
+.SideBarMenuItems ul li {
+  list-style-type: none;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  width: 60%;
+}
+
+.SideBarMenuItems ul li:hover {
+  color: #ffb84d;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+}
+
+/* .SideBarMenuItems ul li:active {
+  color: #ffb84d;
+} */

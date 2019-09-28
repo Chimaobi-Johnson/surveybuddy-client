@@ -5,5 +5,6 @@ export {
 } from './auth';
 export {
   storeCustomSurveyForm,
-  saveUserSurveyForm
+  saveUserSurveyForm,
+  saveSurveyEmailDetails
 } from './surveys';

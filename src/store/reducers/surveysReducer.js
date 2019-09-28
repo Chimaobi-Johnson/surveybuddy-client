@@ -2,7 +2,9 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   surveyFormData: null,
-  saved: null
+  status: null,
+  data: null,
+  emailDetails: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -16,11 +18,16 @@ const reducer = (state = initialState, action) => {
         }
         case actionTypes.SAVE_USER_SURVEY_FORM_SUCCESS:
         return {
-          saved: true
+          status: action.status,
+          data: action.survey
         }
         case actionTypes.SAVE_USER_SURVEY_FORM_FAIL:
         return {
-          saved: false
+          status: 500
+        }
+        case actionTypes.SAVE_SURVEY_EMAIL_DETAILS_SUCCESS:
+        return {
+          emailDetails: action.response
         }
         default:
           return state;

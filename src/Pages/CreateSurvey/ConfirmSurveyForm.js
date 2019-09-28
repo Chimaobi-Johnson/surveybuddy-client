@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button';
+import loader from '../../images/gif/disk.gif';
 
 import * as actions from '../../store/actions';
 
@@ -17,8 +18,15 @@ import * as classes from './ConfirmSurveyForm.module.css';
 
 class ConfirmSurveyForm extends Component {
 
- componentDidMount() {
+  state = {
+    modalOpen: true,
+    saving: false
+  }
 
+ componentDidMount() {
+    // if(this.props.responseData !== null) {
+    //   this.setState({saving: false});
+    // }
  }
 
  goBack = () => {
@@ -29,6 +37,7 @@ class ConfirmSurveyForm extends Component {
    if(this.props.customSurvey) {
      const customForm = this.props.customSurvey;
      this.props.saveUserSurveyForm(customForm);
+     this.setState({ saving: true });
    }
  }
 
@@ -100,6 +109,7 @@ class ConfirmSurveyForm extends Component {
            {this.renderSurveyCheckbox()}
            {this.renderSurveyRadioOptions()}
           </div>
+          {this.state.saving ? <div className={classes.LoadingBox}><img style={{width: '50px', height: '50px'}} src={loader} alt="" /><p style={{display: 'block', fontWeight: 'bold'}}>Saving..</p></div> : null }
           <div className={classes.SurveyFooterText}>{this.props.customSurvey.surveyFooterText ? this.props.customSurvey.surveyFooterText : null}</div>
         </div>
         </div>
@@ -110,38 +120,56 @@ class ConfirmSurveyForm extends Component {
     }
   }
 
-  render () {
-    let saveStatus;
+  continueFormHandler = () => {
+    this.props.history.push('/surveys/customize_email', {surveyId: this.props.responseData.surveyForm._id});
+  }
+
+  retrySaveHandler = () => {
     if(this.props.customSurvey) {
-      if(this.props.customSurvey.saved === true) {
+      const customForm = this.props.customSurvey;
+      this.props.saveUserSurveyForm(customForm);
+    }
+  }
+
+  closeModalHandler = () => {
+    this.setState({ modalOpen: false })
+  }
+
+  render () {
+  {/*  let saveStatus;
+
+      if(this.props.responseStatus === null) {
+        saveStatus = null;
+      }
+      else if(this.props.responseStatus === 200) {
          saveStatus = (
-          <Dialog open={this.props.customSurvey.saved} aria-labelledby="form-dialog-title">
+          <Dialog open={true} aria-labelledby="form-dialog-title">
             <DialogContent>
               <h1> Your Form Has been Saved Successfully </h1>
             </DialogContent>
             <DialogActions>
-              <Button>Continue</Button>
+              <Button onClick={this.continueFormHandler}>Continue</Button>
             </DialogActions>
           </Dialog>
         )
       } else {
          saveStatus = (
-          <Dialog open={this.props.customSurvey.saved === false ? true : false} aria-labelledby="form-dialog-title">
+          <Dialog open={this.state.modalOpen} onClose={this.closeModalHandler} aria-labelledby="form-dialog-title">
             <DialogContent>
               <h1> Error Saving Form. Check Connection Settings... </h1>
             </DialogContent>
             <DialogActions>
-              <Button>Retry</Button>
+              <Button onClick={this.closeModalHandler}>Cancel</Button>
+              <Button onClick={this.retrySaveHandler}>Retry</Button>
             </DialogActions>
           </Dialog>
         )
       }
 
-    }
+*/}
 
     return (
       <div className={classes.OuterBox}>
-       {saveStatus}
        <a onClick={this.goBack}href="#" className={classes.BtnBack}>Back</a>
        <a onClick={this.saveSurveyFormHandler}href="#" className={classes.BtnSave}>Save Form</a>
        {this.renderFormContent()}
@@ -158,7 +186,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    customSurvey: state.surveysReducer.surveyFormData
+    customSurvey: state.surveysReducer.surveyFormData,
+    responseStatus: state.surveysReducer.status,
+    responseData: state.surveysReducer.data
   }
 }
 

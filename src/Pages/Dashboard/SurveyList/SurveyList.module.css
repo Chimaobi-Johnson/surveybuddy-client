@@ -1,0 +1,36 @@
+.SurveyList h2 {
+  padding-left: 1rem;
+}
+
+.SurveyTable {
+  width: 70%;
+}
+
+.SurveyTable tr td {
+  padding: 1.5rem;
+}
+
+.SurveyTable th td {
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.SurveyTable th {
+  background-color: #9c3232;
+  color: #fff;
+}
+
+.SurveyTable tr td {
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+  font-weight: bold;
+}
+
+.SurveyTable tr:hover {
+  box-shadow: 1px 1px 1px #f7f7f7;
+  cursor: pointer;
+}
+
+.SurveyTable tr td:hover {
+    border-bottom-color: #ff9800;
+}

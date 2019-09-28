@@ -137,7 +137,7 @@ class CreateSurveyWizard extends Component {
     surveyInputLabelName: '',
     surveyInputs: {},
     imagePreviewUrl: '',
-    file: ''
+    file: null
   }
 
   componentDidMount() {
@@ -567,7 +567,7 @@ class CreateSurveyWizard extends Component {
           editRadioNamesHandler={this.editRadioNamesHandler} saveRadioNamesHandler={this.saveRadioNamesHandler}/>
           <RenderFooterModal surveyFooterDialog={this.state.surveyFooterDialog} surveyFooterText={this.state.surveyFooterText} changeSurveyFooterText={this.changeSurveyFooterText} removeDialog={(mode) => this.removeDialog('surveyFooterDialog')}/>
 
-         <Grid item md={3} xs={12} sm={12}>
+         <Grid item md={3} xs={0} sm={0}>
             <SideBar>
                 <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
                 <div style={{textAlign: 'center'}}>
@@ -613,6 +613,10 @@ class CreateSurveyWizard extends Component {
 
             <Grid item md={9} xs={12} sm={12}>
                 <div className={classes.DashboardMain}>
+                 <h3 className={classes.MobileHeading}>Click options to start editing your form</h3>
+                 <div className={classes.OptionBtnBox}>
+                   <Button>Options</Button>
+                 </div>
                 <a href="#" onClick={this.storeCustomSurveyFormHandler} className={classes.NextBtn}>Next <Icon><NavigateNextIcon /></Icon></a>
                   <div className={classes.DashboardInnerBox}>
                     {this.renderDashboardContent()}
