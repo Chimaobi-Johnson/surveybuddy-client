@@ -12,20 +12,137 @@
 .AuthDialogBox {
   font-size: 1.5rem;
 }
+.MobileNav {
+  display: none;
+}
 
 @media (max-width: 767px) {
   .TopMenu {
     display: none;
   }
-  .TopMenuBtn {
+  .MobileNav {
     display: block;
-    width: 2rem;
-    height: 2rem;
-    background-color: #ccc;
+  }
+
+  .NavigationCheckbox {
+    display: none;
+  }
+
+  .NavigationButton {
+    height: 5rem;
+    width: 5rem;
+    text-align: center;
+    border-radius: 50%;
+    position: fixed;
+    top: .5rem;
+    right: 2.5rem;
+    background-color: #cf8f33;
+    z-index: 2000;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, .1);
+  }
+
+  .NavigationBackground {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 1rem;
+    right: 3rem;
+    background-image: radial-gradient(#f7af43, #ff9800);
+    z-index: 1000;
+    transition: transform .8s;
+     /* transform: scale(80);  */
+  }
+
+  .MobileNavigationBox {
+     height: 100vh;
+     width: 0;
+     position: fixed;
+     top: 0;
+     left: 0;
+     z-index: 1500;
+     opacity: 0;
+     transition: all .8s;
+  }
+
+  .MobileNavigationList {
     position: absolute;
-    top: .8rem;
-    right: 1rem;
-    z-index: 150;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .MobileNavigationList li {
+    list-style-type: none;
+    padding: 1rem 4rem;
+    background-color: #fff;
+    box-shadow: 1px 2px 0px #00000026;
+    margin: 2rem;
+  }
+
+  .MobileNavigationList li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+  }
+
+  .NavigationCheckbox:checked ~ .NavigationBackground {
+    transform: scale(80);
+  }
+
+  .NavigationCheckbox:checked ~ .MobileNavigationBox {
+     opacity: 1;
+     width: 100%;
+  }
+
+  /* for icon lines */
+  .NavigationIcon {
+    position: relative;
+    margin-top: 1.7rem;
+    text-align: center;
+  }
+  .NavigationIcon,
+  .NavigationIcon::before,
+  .NavigationIcon::after {
+    width: 2.5rem;
+    height: 1.2px;
+    background-color: #333;
+    display: inline-block;
+    right: .7rem;
+  }
+
+  .NavigationIcon,
+  .NavigationIcon::before,
+  .NavigationIcon::after {
+    content: "";
+    position: absolute;
+    transition: all .3s;
+  }
+
+  .NavigationIcon {
+    top: 1rem;
+    right: .7rem;
+  }
+
+  .NavigationIcon::before {
+    top: -1rem;
+  }
+  .NavigationIcon::after {
+    top: 1rem;
+  }
+  .NavigationCheckbox:checked + .NavigationButton {
+    background-color: transparent;
+  }
+  .NavigationCheckbox:checked + .NavigationButton .NavigationIcon {
+     background-color: transparent;
+  }
+  .NavigationCheckbox:checked + .NavigationButton .NavigationIcon::before {
+     top: 0;
+     transform: rotate(135deg);
+  }
+  .NavigationCheckbox:checked + .NavigationButton .NavigationIcon::after {
+    top: 0;
+    transform: rotate(-135deg);
   }
 }
 

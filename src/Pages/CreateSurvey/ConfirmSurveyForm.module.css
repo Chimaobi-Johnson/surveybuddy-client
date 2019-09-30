@@ -1,3 +1,12 @@
+@media (max-width: 767px) {
+  .FormBox {
+    width: 95%;
+  }
+  .SurveyName {
+    padding: 1rem;
+    font-size: 1.2rem;
+  }
+}
 .OuterBox {
   background-color: rgba(39, 39, 41);
   height: 110vh;
@@ -6,27 +15,25 @@
 }
 
 .BtnBack {
-   padding: 1.5rem 2rem;
-   background-color: green;
+   padding: 1rem 1.2rem;
+   background-color: #29090d;
    position: fixed;
    z-index: 50;
-   border-top-right-radius: .5rem;
-   border-bottom-right-radius: .5rem;
+   border-radius: 0;
    color: #fff;
-   top: 48%;
+   top: 28%;
    text-decoration: none;
    left: 0;
 }
 
 .BtnSave {
-  padding: 1.5rem 2rem;
-  background-color: green;
+  padding: 1rem 1.2rem;
+  background-color: #44171d;
   position: fixed;
   z-index: 50;
-  border-top-left-radius: .5rem;
-  border-bottom-left-radius: .5rem;
+  border-radius: 0;
   color: #fff;
-  top: 48%;
+  top: 68%;
   text-decoration: none;
   right: 0;
 }

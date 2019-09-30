@@ -25,30 +25,9 @@ class SideBar extends Component {
 
   }
 
-   toggleDrawer = (event, boolean) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    this.setState({ drawerLeft: [boolean] });
-  };
-
-   sideList = side => (
-    <div
-      className={classes.list}
-      role="presentation"
-      onClick={(boolean) => this.toggleDrawer(false)}
-      onKeyDown={(boolean) => this.toggleDrawer(false)}
-    >
-      <List>
-        <h2>yes too</h2>
-      </List>
-      <Divider />
-      <List>
-        <h1>Yes</h1>
-      </List>
-    </div>
-  );
+  closeDrawer() {
+    document.getElementById('drawer-toggle').checked = false;
+  }
 
   render () {
  console.log(this.props.auth);
@@ -67,12 +46,21 @@ class SideBar extends Component {
     return (
       <>
       <div className={classes.DrawerBox}>
-        <Button onClick={this.toggleDrawer()}>Open Left</Button>
-        <SwipeableDrawer
-          open={this.state.drawerLeft}
-        >
-          {this.sideList('left')}
-        </SwipeableDrawer>
+         <input type="checkbox" id="drawer-toggle" className={classes.DrawerToggle} name="drawer-toggle"/>
+         <label for="drawer-toggle" id="drawer-toggle-label" style={{left: '0', position: 'fixed'}} className={classes.DrawerToggleLabel}>MENU</label>
+         <div id="drawerBackdrop" onClick={this.closeDrawer} className={classes.DrawerBackdrop}></div>
+         <div id="drawer" className={classes.Drawer}>
+         <label for="drawer-toggle" id="drawer-toggle-label" style={{right: '0', padding: '2rem', position: 'absolute'}} className={classes.DrawerToggleLabel}>
+           <span className={classes.CloseIcon}>&nbsp;</span>
+         </label>
+          <div className={classes.SideBarMobile}>
+              <h3>SURVEYBUDDY</h3>
+               {profileInfo}
+              <div>
+                {this.props.children}
+              </div>
+          </div>
+         </div>
       </div>
       <div className={classes.SideBar}>
           <h1>SURVEYBUDDY</h1>

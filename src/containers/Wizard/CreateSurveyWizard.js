@@ -156,6 +156,10 @@ class CreateSurveyWizard extends Component {
      }
   }
 
+  cancelNewSurvey = () => {
+    this.props.history.push('/surveys');
+  }
+
   storeCustomSurveyFormHandler = () => {
     // prompt('Please cross check your form very well because once you proceed you cant edit form again');
      const userCustomSurveyForm = {
@@ -195,6 +199,7 @@ class CreateSurveyWizard extends Component {
   }
 
   initSurveyTitleDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     this.setState({surveyTitleDialog: true});
   }
 
@@ -203,10 +208,12 @@ class CreateSurveyWizard extends Component {
   }
 
   initSurveyDescrDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     this.setState({surveyDescrDialog: true});
   }
 
   initSurveyImageDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     this.setState({surveyImageDialog: true});
   }
 
@@ -236,8 +243,10 @@ class CreateSurveyWizard extends Component {
     const surveyInputsData = {...this.state.surveyInputs};
     const surveyInputLength = Object.keys(surveyInputsData).length
     if(surveyInputLength <= 4) {
+      document.getElementById('drawer-toggle').checked = false;
       this.setState({surveyInputDialog: true});
     } else {
+      document.getElementById('drawer-toggle').checked = false;
       alert('You have reached the maximum number of inputs');
     }
   }
@@ -264,6 +273,7 @@ class CreateSurveyWizard extends Component {
   }
 
   initSurveyCheckboxDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     const surveyCheckboxes = {...this.state.surveyCheckboxes};
     this.setState({surveyCheckboxDialog: true});
   }
@@ -400,6 +410,7 @@ class CreateSurveyWizard extends Component {
   }
 
   initSurveyRadioDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     this.setState({surveyRadioDialog: true});
   }
 
@@ -479,6 +490,7 @@ class CreateSurveyWizard extends Component {
     }
 
   initSurveyFooterDialog = () => {
+    document.getElementById('drawer-toggle').checked = false;
     this.setState({ surveyFooterDialog: true });
   }
 
@@ -577,7 +589,7 @@ class CreateSurveyWizard extends Component {
                 </div>
                 <h3>INSERT</h3>
                 <div className={classes.ActionButtons}>
-                    <Fab variant="extended"  onClick={this.initSurveyTitleDialog}>
+                    <Fab variant="extended" onClick={this.initSurveyTitleDialog}>
                     <TitleRoundedIcon />
                       Title
                     </Fab>
@@ -613,10 +625,7 @@ class CreateSurveyWizard extends Component {
 
             <Grid item md={9} xs={12} sm={12}>
                 <div className={classes.DashboardMain}>
-                 <h3 className={classes.MobileHeading}>Click options to start editing your form</h3>
-                 <div className={classes.OptionBtnBox}>
-                   <Button>Options</Button>
-                 </div>
+                 <h3 className={classes.MobileHeading}>Click MENU to start editing your form</h3>
                 <a href="#" onClick={this.storeCustomSurveyFormHandler} className={classes.NextBtn}>Next <Icon><NavigateNextIcon /></Icon></a>
                   <div className={classes.DashboardInnerBox}>
                     {this.renderDashboardContent()}
