@@ -168,12 +168,23 @@ class CreateSurveyWizard extends Component {
        surveyDescrText: this.state.surveyDescrText,
        surveyFooterText: this.state.surveyFooterText,
        imagePreviewUrl: this.state.imagePreviewUrl,
-       file: this.state.file,
+       image: this.state.file,
        surveyInputs: {...this.state.surveyInputs},
        surveyCheckboxes: {...this.state.surveyCheckboxes},
        surveyRadioOptions: {...this.state.surveyRadioOptions}
      }
-     // console.log(userCustomSurveyForm);
+
+    //  let userCustomSurveyForm = new FormData();
+    // userCustomSurveyForm.append('surveyName', this.state.surveyNameText);
+    // userCustomSurveyForm.append('surveyTitleText', this.state.surveyTitleText);
+    // userCustomSurveyForm.append('surveyDescrText', this.state.surveyDescrText);
+    // userCustomSurveyForm.append('surveyFooterText', this.state.surveyFooterText);
+    // userCustomSurveyForm.append('image', this.state.file);
+    // userCustomSurveyForm.append('imagePreviewUrl', this.state.imagePreviewUrl);
+    // userCustomSurveyForm.append('surveyInputs', {...this.state.surveyInputs});
+    // userCustomSurveyForm.append('surveyCheckboxes', {...this.state.surveyCheckboxes});
+    // userCustomSurveyForm.append('surveyRadioOptions', {...this.state.surveyRadioOptions});
+    //  console.log(userCustomSurveyForm);
      this.props.storeCustomSurveyForm(userCustomSurveyForm);
      this.props.history.push('/surveys/confirm');
   }

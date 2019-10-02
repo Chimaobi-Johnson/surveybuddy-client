@@ -35,8 +35,22 @@ class ConfirmSurveyForm extends Component {
 
  saveSurveyFormHandler = () => {
    if(this.props.customSurvey) {
-     const customForm = this.props.customSurvey;
+     const surveyInputs = JSON.stringify(this.props.customSurvey.surveyInputs);
+     const surveyCheckboxes = JSON.stringify(this.props.customSurvey.surveyCheckboxes);
+     const surveyRadioOptions = JSON.stringify(this.props.customSurvey.surveyRadioOptions);
+
+     let customForm = new FormData();
+     customForm.append('surveyName', this.props.customSurvey.surveyName);
+     customForm.append('surveyTitleText', this.props.customSurvey.surveyTitleText);
+     customForm.append('surveyDescrText', this.props.customSurvey.surveyDescrText);
+     customForm.append('surveyFooterText', this.props.customSurvey.surveyFooterText);
+     customForm.append('image', this.props.customSurvey.image);
+     customForm.append('surveyInputs', surveyInputs);
+     customForm.append('surveyCheckboxes', surveyCheckboxes);
+     customForm.append('surveyRadioOptions', surveyRadioOptions);
+     // const customForm = this.props.customSurvey;
      this.props.saveUserSurveyForm(customForm);
+     console.log(customForm);
      this.setState({ saving: true });
    }
  }
@@ -109,7 +123,7 @@ class ConfirmSurveyForm extends Component {
            {this.renderSurveyCheckbox()}
            {this.renderSurveyRadioOptions()}
           </div>
-          {this.state.saving ? <div className={classes.LoadingBox}><img style={{width: '50px', height: '50px'}} src={loader} alt="" /><p style={{display: 'block', fontWeight: 'bold'}}>Saving..</p></div> : null }
+          {this.state.saving ? <div className={classes.LoadingBox}><img style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '50px', height: '50px'}} src={loader} alt="" /><p style={{display: 'block', fontWeight: 'bold',  position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%, -50%)'}}>Saving..</p></div> : null }
           <div className={classes.SurveyFooterText}>{this.props.customSurvey.surveyFooterText ? this.props.customSurvey.surveyFooterText : null}</div>
         </div>
         </div>
@@ -136,7 +150,7 @@ class ConfirmSurveyForm extends Component {
   }
 
   render () {
-  {/*  let saveStatus;
+    let saveStatus;
 
       if(this.props.responseStatus === null) {
         saveStatus = null;
@@ -148,7 +162,7 @@ class ConfirmSurveyForm extends Component {
               <h1> Your Form Has been Saved Successfully </h1>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.continueFormHandler}>Continue</Button>
+              <Button style={{ backgroundColor: 'green' }} onClick={this.continueFormHandler}>Continue</Button>
             </DialogActions>
           </Dialog>
         )
@@ -156,24 +170,26 @@ class ConfirmSurveyForm extends Component {
          saveStatus = (
           <Dialog open={this.state.modalOpen} onClose={this.closeModalHandler} aria-labelledby="form-dialog-title">
             <DialogContent>
-              <h1> Error Saving Form. Check Connection Settings... </h1>
+              <h1> Error Saving Form. Check Connection Settings and try again </h1>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.closeModalHandler}>Cancel</Button>
-              <Button onClick={this.retrySaveHandler}>Retry</Button>
+              <Button btntype="primary" onClick={this.closeModalHandler}>Okay</Button>
+              {/* <Button onClick={this.retrySaveHandler}>Retry</Button> */}
             </DialogActions>
           </Dialog>
         )
       }
 
-*/}
 
     return (
+      <>
+      {saveStatus}
       <div className={classes.OuterBox}>
-       <a onClick={this.goBack}href="#" className={classes.BtnBack}>Back</a>
-       <a onClick={this.saveSurveyFormHandler}href="#" className={classes.BtnSave}>Save Form</a>
+       <a onClick={this.goBack} href="#" className={classes.BtnBack}>Back</a>
+       <a onClick={this.saveSurveyFormHandler} className={classes.BtnSave}>Save Form</a>
        {this.renderFormContent()}
       </div>
+      </>
     )
   }
 }

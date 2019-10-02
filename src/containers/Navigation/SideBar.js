@@ -38,7 +38,7 @@ class SideBar extends Component {
      <div>
         <Icon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}} fontSize='large'>{this.props.auth.user.profilePhoto ? <div><img className={classes.Picture} src={this.props.auth.user.profilePhoto} alt='' /></div> : <AccountCircleIcon style={{margin: '0 auto', width: '7rem', height: '7rem', display: 'block'}}/>}</Icon>
      </div>
-     <p>{this.props.auth.user.facebookId ? this.props.auth.user.displayName : this.props.auth.user.firstName}</p>
+     <p style={{ textAlign: 'center' }}>{this.props.auth.user.facebookId ? this.props.auth.user.displayName : this.props.auth.user.firstName}</p>
      </>
    )
  }
