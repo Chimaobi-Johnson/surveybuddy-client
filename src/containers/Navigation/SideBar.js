@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
-import Grid from '@material-ui/core/Grid';
 import { connect } from  'react-redux';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
 import * as classes from './SideBar.module.css';
 
@@ -47,10 +36,10 @@ class SideBar extends Component {
       <>
       <div className={classes.DrawerBox}>
          <input type="checkbox" id="drawer-toggle" className={classes.DrawerToggle} name="drawer-toggle"/>
-         <label for="drawer-toggle" id="drawer-toggle-label" style={{left: '0', position: 'fixed'}} className={classes.DrawerToggleLabel}>MENU</label>
+         <label htmlFor="drawer-toggle" id="drawer-toggle-label" style={{left: '0', position: 'fixed'}} className={classes.DrawerToggleLabel}>MENU</label>
          <div id="drawerBackdrop" onClick={this.closeDrawer} className={classes.DrawerBackdrop}></div>
          <div id="drawer" className={classes.Drawer}>
-         <label for="drawer-toggle" id="drawer-toggle-label" style={{right: '0', padding: '2rem', position: 'absolute'}} className={classes.DrawerToggleLabel}>
+         <label htmlFor="drawer-toggle" id="drawer-toggle-label" style={{right: '0', padding: '2rem', position: 'absolute'}} className={classes.DrawerToggleLabel}>
            <span className={classes.CloseIcon}>&nbsp;</span>
          </label>
           <div className={classes.SideBarMobile}>
@@ -63,7 +52,7 @@ class SideBar extends Component {
          </div>
       </div>
       <div className={classes.SideBar}>
-          <h1>SURVEYBUDDY</h1>
+          <h1><a href="/">SURVEYBUDDY</a></h1>
            {profileInfo}
           <div>
             {this.props.children}

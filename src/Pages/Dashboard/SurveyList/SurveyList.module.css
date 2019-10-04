@@ -1,5 +1,6 @@
 .SurveyList h2 {
   padding-left: 1rem;
+  text-align: center;
 }
 
 .SurveyTable {
@@ -10,9 +11,16 @@
   padding: 1.5rem;
 }
 
-.SurveyTable th td {
+.SurveyTable tr th {
   padding: 1.5rem;
   text-align: left;
+}
+
+@media (max-width: 767px) {
+  .SurveyTable tr th {
+    padding: .8rem;
+    text-align: left;
+  }
 }
 
 .SurveyTable th {

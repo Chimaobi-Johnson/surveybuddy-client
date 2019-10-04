@@ -53,7 +53,7 @@ class Dashboard extends Component {
      return (
         <div>
           <Grid className={classes.Dashboard} container spacing={0}>
-          <Grid item md={3} xs={0} sm={0}>
+          <Grid item md={3}>
            <SideBar>
              <div className={classes.CreateSurveyBtn}>
                <Button onClick={(menuName) => this.displayMenuItemHandler(menuItems.CreateNew)}>Create New Survey</Button>

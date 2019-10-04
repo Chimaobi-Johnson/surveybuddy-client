@@ -4,6 +4,10 @@ import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import SideBar from '../../containers/Navigation/SideBar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions'
+
 import * as actions from '../../store/actions';
 
 class CustomizeEmail extends Component {
@@ -13,12 +17,17 @@ class CustomizeEmail extends Component {
      emailBody: '',
      emailRecipients: '',
      surveyId: null,
-     loading: false
+     loading: false,
+     errorModal: false
    }
 
    componentDidMount () {
      this.setState({ surveyId: this.props.location.state.surveyId });
    }
+
+    // if(this.props.emailDetailsFail === true) {
+    //   this.setState({ loading: false, errorModal: true});
+    // }
 
     textFieldChangeHandler = (event, textfield) => {
       this.setState({ [textfield]: event.target.value });
@@ -42,6 +51,19 @@ class CustomizeEmail extends Component {
    if(this.props.emailDetails) {
      this.props.history.push('/surveys/review_final', { surveyId: this.state.surveyId });
    }
+  let errorModal;
+   if(this.props.emailDetailsFail === true) {
+     errorModal = (
+       <Dialog open={true} aria-labelledby="form-dialog-title">
+         <DialogContent>
+           <h1> There has been an error, please check your connection settings and try again </h1>
+         </DialogContent>
+         <DialogActions>
+           <Button>Okay</Button>
+         </DialogActions>
+       </Dialog>
+     )
+   }
 
     return (
       <div className={classes.Container}>
@@ -56,6 +78,7 @@ class CustomizeEmail extends Component {
                   variant="outlined"
                   onChange={(event, textfield) => this.textFieldChangeHandler(event, 'emailSubject')}
                   fullWidth
+                  required
                 />
                  <TextField
                     id="emailBody"
@@ -65,6 +88,7 @@ class CustomizeEmail extends Component {
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    required
                   />
                 <TextField
                     id="emailRecipients"
@@ -75,6 +99,7 @@ class CustomizeEmail extends Component {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    required
                   />
               <Button onClick={this.submitSurveyEmailHandler} style={{float: 'right', backgroundColor: '#1b1a1a', color: '#fff'}}>{this.state.loading ? 'loading...' : 'Proceed' }</Button>
 
@@ -87,7 +112,8 @@ class CustomizeEmail extends Component {
 
 const mapStateToProps = state => {
   return {
-    emailDetails: state.surveysReducer.emailDetails
+    emailDetails: state.surveysReducer.emailDetails,
+    emailDetailsFail: true
   }
 }
 

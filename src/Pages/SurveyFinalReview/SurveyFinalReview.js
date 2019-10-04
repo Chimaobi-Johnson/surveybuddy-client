@@ -1,39 +1,15 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { connect } from  'react-redux';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions'
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormGroup from '@material-ui/core/FormGroup';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import isEmpty from 'lodash/isEmpty';
-import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
-import IconButton from '@material-ui/core/IconButton';
-import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
-import ImageRoundedIcon from '@material-ui/icons/ImageRounded';
-import InputRoundedIcon from '@material-ui/icons/InputRounded';
-import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
-import TextFieldsRoundedIcon from '@material-ui/icons/TextFieldsRounded';
-import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import Fab from '@material-ui/core/Fab';
-import Avatar from '@material-ui/core/Avatar';
-import Icon from '@material-ui/core/Icon';
 import SideBar from '../../containers/Navigation/SideBar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import FormLabel from '@material-ui/core/FormLabel';
+
 import axios from 'axios';
 
 import * as classes from './SurveyFinalReview.module.css';
@@ -56,6 +32,89 @@ class SurveyFinalReview extends Component {
     })
   }
 
+
+    renderSurveyCheckbox() {
+     let checkboxItems, checkboxDeleteBtn;
+      return Object.values(this.state.survey.surveyCheckboxes).map(checkboxObj => {
+        if(checkboxObj.surveyCheckboxNames) {
+          // To render checkbox items
+          checkboxItems = Object.keys(checkboxObj.surveyCheckboxNames)
+          .map(checkbox => {
+            return <FormControlLabel
+             control={<Checkbox checked={false} value="checkedB" color="primary" />}
+             label={checkbox}/>
+          });
+        }
+        return (
+          <>
+            <h4>{checkboxObj.surveyCheckboxQuestion}</h4>
+            {checkboxItems}
+          </>
+        )
+      })
+    }
+
+    renderSurveyRadioOptions() {
+        return Object.values(this.state.survey.surveyRadioOptions).map(radioObj => {
+          if(radioObj.surveyRadioOptionNames.length !== 0) {
+            return (
+              <>
+              <h3>{radioObj.surveyRadioQuestion}</h3>
+              <FormLabel component="legend"></FormLabel>
+              <RadioGroup style={{display: 'block'}} row aria-label="" name="" value=''>
+                <FormControlLabel value={radioObj.surveyRadioOptionNames[0]} control={<Radio />} label={radioObj.surveyRadioOptionNames[0]} />
+                <FormControlLabel value={radioObj.surveyRadioOptionNames[1]} control={<Radio />} label={radioObj.surveyRadioOptionNames[1]} />
+              </RadioGroup>
+              </>)
+          }
+        });
+    }
+
+  renderSurveyInputs() {
+    if(this.state.survey.surveyInputs) {
+    return (
+      <div id="inputArea" className={classes.InputArea}>
+      {
+        Object.keys(this.state.survey.surveyInputs).map(key => {
+               return (<TextField
+                  key={key + new Date().getMilliseconds()}
+                  margin="dense"
+                  id={key}
+                  type="text"
+                  label={key}
+                  value={this.state.survey.surveyInputs[key]}
+                  fullWidth
+                />
+              )
+      })
+      }
+      </div>
+    )
+  }
+  }
+
+  renderFormContent() {
+    if(this.state.survey) {
+      return (
+        <div className={classes.FormBox}>
+         <div className={classes.InnerFormBox}>
+          <h2>{this.state.survey.surveyTitleText ? this.state.survey.surveyTitleText : null}</h2>
+          <p>{this.state.survey.surveyDescrText ? this.state.survey.surveyDescrText : null}</p>
+          <div className={classes.SurveyImageBox}>
+             {!this.state.survey.imageUrl ? null : <img alt="survey image" src={this.state.survey.imageUrl} />}
+          </div>
+            {this.renderSurveyInputs()}
+          <div>
+           {this.renderSurveyCheckbox()}
+           {this.renderSurveyRadioOptions()}
+          </div>
+          <div className={classes.SurveyFooterText}>{this.state.survey.surveyFooterText ? this.state.survey.surveyFooterText : null}</div>
+        </div>
+        </div>
+      )
+    }
+  }
+
   render () {
 
     console.log(this.state);
@@ -65,7 +124,7 @@ class SurveyFinalReview extends Component {
     if(this.state.survey) {
       reviewData = (
         <Grid className={classes.Dashboard} container spacing={0}>
-        <Grid item md={3} xs={0} sm={0}>
+        <Grid item md={3}>
          <SideBar>
            <Button style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
            <div style={{textAlign: 'center'}}>
@@ -78,7 +137,7 @@ class SurveyFinalReview extends Component {
              <h3>EMAIL BODY</h3>
              <div>{this.state.survey.emailBody ? this.state.survey.emailBody : null}</div>
              <h3>EMAIL RECIPIENTS</h3>
-             <div>{this.state.survey.emailRecipients ? this.state.survey.emailRecipients : null}</div>
+             <div>{this.state.survey.emailRecipients ? this.state.survey.emailRecipients.map(recipient => recipient) : null}</div>
              </div>
            </div>
          </SideBar>
@@ -87,8 +146,9 @@ class SurveyFinalReview extends Component {
            <Grid item md={9} xs={12} sm={12}>
                <div className={classes.DashboardMain}>
                <a href="#" className={classes.NextBtn}>SEND OUT SURVEY</a>
+               <a href="/surveys" className={classes.SendLaterBtn}>SEND LATER</a>
                  <div className={classes.DashboardInnerBox}>
-
+                    {this.renderFormContent()}
                  </div>
                </div>
            </Grid>

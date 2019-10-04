@@ -2,11 +2,13 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import * as classes from './SurveyName.module.css';
+
 const surveyName = props => {
    let surveyName;
    if(props.surveyNameEditingMode) {
     surveyName = (
-     <>
+     <div className={classes.SurveyName}>
       <TextField
         autoFocus
         margin="dense"
@@ -16,7 +18,7 @@ const surveyName = props => {
         onChange={props.surveyNameChange}
       />
       <Button style={{color: '#ff9800'}} onClick={props.saveSurveyName}>Save</Button>
-      </>
+      </div>
     )
    } else {
        surveyName = (

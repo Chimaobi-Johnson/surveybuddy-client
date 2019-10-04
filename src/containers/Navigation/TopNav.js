@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import GoogleButton from '../../components/Button/GoogleButton';
-import FacebookButton from '../../components/Button/FacebookButton';
 import AuthModal from '../../components/Modal/AuthModal/AuthModal';
 import Icon from '@material-ui/core/Icon';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -12,11 +8,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { connect } from  'react-redux';
 
 import * as classes from './TopNav.module.css';
-
-const formClasses = {
-  font: '4rem',
-  backgroundColor: 'red'
-}
 
 class TopNav extends Component {
 
@@ -92,7 +83,6 @@ class TopNav extends Component {
 
    renderAuthButton() {
     console.log(this.props.auth);
-    console.log('topnav');
      switch (this.props.auth) {
        case null:
         return <h3>Loading....</h3>
@@ -138,7 +128,6 @@ class TopNav extends Component {
 
 
   render () {
-  let renderAuthModal;
 
     return (
       <nav>

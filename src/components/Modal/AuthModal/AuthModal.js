@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
+// import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import GoogleButton from '../../Button/GoogleButton';
 import FacebookButton from '../../Button/FacebookButton';
-import * as classes from './AuthModal.module.css';
+// import * as classes from './AuthModal.module.css';
 
 function Modal (props) {
   const [isRegistering, changeToRegister] = useState(false);

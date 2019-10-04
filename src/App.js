@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import TopNav from './containers/Navigation/TopNav';
-import AuthModal from './containers/Authentication/AuthModal';
-import HomeBody from './containers/HomeBody/HomeBody';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import ConfirmSurveyForm from './Pages/CreateSurvey/ConfirmSurveyForm';
 import CreateSurvey from './containers/Wizard/CreateSurveyWizard';
@@ -9,7 +6,7 @@ import CustomizeEmail from './Pages/CustomizeEmail/CustomizeEmail';
 import SurveyFinalReview from './Pages/SurveyFinalReview/SurveyFinalReview';
 import Home from './Pages/Home/Home';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import * as actions from './store/actions';
 import './App.css';
 

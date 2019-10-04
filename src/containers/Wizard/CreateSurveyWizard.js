@@ -3,20 +3,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { connect } from  'react-redux';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions'
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormGroup from '@material-ui/core/FormGroup';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import isEmpty from 'lodash/isEmpty';
 import SurveyName from './SurveyName/SurveyName';
 import RenderTitleModal from './Title/RenderTitleModal';
@@ -27,19 +18,15 @@ import RenderCheckboxModal from './Checkbox/RenderCheckboxModal';
 import RenderRadioModal from './Radio/RenderRadioModal';
 import RenderFooterModal from './Footer/RenderFooterModal';
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
-import IconButton from '@material-ui/core/IconButton';
 import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import ImageRoundedIcon from '@material-ui/icons/ImageRounded';
 import InputRoundedIcon from '@material-ui/icons/InputRounded';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import TextFieldsRoundedIcon from '@material-ui/icons/TextFieldsRounded';
 import RadioButtonCheckedRoundedIcon from '@material-ui/icons/RadioButtonCheckedRounded';
-import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Fab from '@material-ui/core/Fab';
-import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
 import SideBar from '../Navigation/SideBar';
 
@@ -173,18 +160,6 @@ class CreateSurveyWizard extends Component {
        surveyCheckboxes: {...this.state.surveyCheckboxes},
        surveyRadioOptions: {...this.state.surveyRadioOptions}
      }
-
-    //  let userCustomSurveyForm = new FormData();
-    // userCustomSurveyForm.append('surveyName', this.state.surveyNameText);
-    // userCustomSurveyForm.append('surveyTitleText', this.state.surveyTitleText);
-    // userCustomSurveyForm.append('surveyDescrText', this.state.surveyDescrText);
-    // userCustomSurveyForm.append('surveyFooterText', this.state.surveyFooterText);
-    // userCustomSurveyForm.append('image', this.state.file);
-    // userCustomSurveyForm.append('imagePreviewUrl', this.state.imagePreviewUrl);
-    // userCustomSurveyForm.append('surveyInputs', {...this.state.surveyInputs});
-    // userCustomSurveyForm.append('surveyCheckboxes', {...this.state.surveyCheckboxes});
-    // userCustomSurveyForm.append('surveyRadioOptions', {...this.state.surveyRadioOptions});
-    //  console.log(userCustomSurveyForm);
      this.props.storeCustomSurveyForm(userCustomSurveyForm);
      this.props.history.push('/surveys/confirm');
   }
@@ -400,11 +375,11 @@ class CreateSurveyWizard extends Component {
          });
        }
        return (
-         <>
+         <div key={Math.random()}>
            <h4>{checkboxObj.surveyCheckboxQuestion}</h4>
            {checkboxItems}
            {checkboxObj.surveyCheckboxQuestion ? <Button onClick={(checkbox) => this.deleteSurveyCheckBoxHandler(checkboxObj)}>Delete</Button> : null}
-         </>
+         </div>
        )
      })
   }
@@ -487,7 +462,7 @@ class CreateSurveyWizard extends Component {
       return Object.values(this.state.surveyRadioOptions).map(radioObj => {
         if(radioObj.surveyRadioOptionNames.length !== 0) {
           return (
-            <>
+            <div key={Math.random()}>
             <h3>{radioObj.surveyRadioQuestion}</h3>
             <FormLabel component="legend"></FormLabel>
             <RadioGroup style={{display: 'block'}} row aria-label="" name="" value=''>
@@ -495,7 +470,7 @@ class CreateSurveyWizard extends Component {
               <FormControlLabel value={radioObj.surveyRadioOptionNames[1]} control={<Radio />} label={radioObj.surveyRadioOptionNames[1]} />
             </RadioGroup>
             <Button onClick={(radio) => this.deleteSurveyRadioOptionHandler(radioObj)}>Delete</Button>
-            </>)
+            </div>)
         }
       });
     }
@@ -590,7 +565,7 @@ class CreateSurveyWizard extends Component {
           editRadioNamesHandler={this.editRadioNamesHandler} saveRadioNamesHandler={this.saveRadioNamesHandler}/>
           <RenderFooterModal surveyFooterDialog={this.state.surveyFooterDialog} surveyFooterText={this.state.surveyFooterText} changeSurveyFooterText={this.changeSurveyFooterText} removeDialog={(mode) => this.removeDialog('surveyFooterDialog')}/>
 
-         <Grid item md={3} xs={0} sm={0}>
+         <Grid item md={3}>
             <SideBar>
                 <Button onClick={this.cancelNewSurvey} style={{color: '#fff', backgroundColor: '#ff9800', borderTopLeftRadius: '0', borderBottomLeftRadius: '0'}} btntype='secondary'>Go Back</Button>
                 <div style={{textAlign: 'center'}}>
